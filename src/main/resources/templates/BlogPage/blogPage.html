@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<!--        <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>-->
+<!--        <link rel="stylesheet" type="text/css" href="assets/vendor/owl-slider.css"/>-->
+<!--        <link rel="stylesheet" type="text/css" href="assets/vendor/settings.css"/>-->
+        <link rel="stylesheet" th:href="@{Blog/blog_page.css}" type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,700,300' rel='stylesheet' type='text/css'>
+<!--        <script type="text/javascript" src="assets/js/jquery-1.11.1.min.js"></script>-->
+        <title>Blog</title>
+    </head>
+<!--    <body>-->
+<!--        <header class="header">-->
+<!--            <div class="header_inner">-->
+<!--                <a class="header_logo" href="/">Ro&Co</a>-->
+<!--                <nav class="nav">-->
+<!--                    <a class="nav_link" href="/about">About</a>-->
+<!--                    <a class="nav_link" href="#">Contact</a>-->
+<!--                    <a class="nav_link" href="/catalog">Catalog</a>-->
+<!--                    <a class="nav_link" href="" >Blog</a>-->
+<!--                    <a class="nav_link" href="/Account">Account</a>-->
+<!--                </nav>-->
+<!--            </div>-->
+<!--        </header>-->
+
+        <header th:insert="~{pattern :: header}"></header>
+
+        <!-- End container -->
+        <div class="blog-post-container blog-page blog-list-width">
+            <div class="container container-ver2">
+               <div class="row" th:each="el : ${posts}">
+<!--                   {% for el in news%}-->
+                    <div class="blog-post-item left">
+                        <div class="blog-post-image hover-images">
+                            <a th:href="'/Blog/post' + ${el.pk}" title="Post"><img th:src ="${el.imgUrl} ?: 'Blog/img/no_img.png'" alt=""></a>
+                        </div>
+
+                        <div class="text">
+                            <h3 th:text="${el.postTitle}"/>
+<!--                            <a href="#" title="Integer scelerisque diam vitae aliquam fringilla.">{{ el.postTitle }}</a></h3>-->
+                            <p class="post-by">
+                                <span th:text="${el.author}"><i class="fa fa-pencil-square-o"></i></span>
+                                <span th:text="${el.publDate}"><i class="fa fa-comment-o"></i></span>
+                            </p>
+                            <p class="content" th:text="${el.brief}"></p>
+                            <a class="link-v1 color-brand" th:href="'/Blog/post' + ${el.pk}" title="readmore">Read More</a>
+                        </div>
+                        <!-- End text -->
+                    </div>
+                    <!-- End item -->
+<!--                   {% endfor %}-->
+               </div>
+               </div>
+               <a class="link-v1 color-brand add-new" href="/Blog/addPost" title="add_new">Add new</a>
+            </div>
+            <!-- End container -->
+        </div>
+<!--    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>-->
+<!--    <script type="text/javascript" src="assets/js/owl.carousel.min.js"></script>-->
+<!--    <script type="text/javascript" src="assets/js/jquery.themepunch.revolution.min.js"></script>-->
+<!--    <script type="text/javascript" src="assets/js/jquery.themepunch.plugins.min.js"></script>-->
+<!--    <script type="text/javascript" src="assets/js/engo-plugins.js"></script>-->
+<!--    <script type="text/javascript" src="assets/js/store.js"></script>-->
+    </body>
+        
+</html>
+

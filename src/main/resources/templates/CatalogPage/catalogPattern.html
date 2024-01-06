@@ -1,0 +1,51 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+
+<!--    <head>-->
+<!--        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
+<!--        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />-->
+<!--        <link rel="stylesheet" th:href="@{MainPage/catalog_page.css}" type='text/css'>-->
+<!--        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,700,300' rel='stylesheet' type='text/css'>-->
+
+<!--        <title>{% block title %}Catalog{% endblock %}</title>-->
+<!--&lt;!&ndash;        <link href="{% static 'css/base.css' %}" rel="stylesheet">&ndash;&gt;-->
+<!--    </head>-->
+
+<!--    <body>-->
+<!--    <div class="wrappage">-->
+
+        <header class="header" th:fragment="header">
+            <div class="header_inner">
+
+                <a class="header_logo" href="/">Ro&Co</a>
+
+                <nav class="nav">
+                    <a class="nav_link" href="/about">About</a>
+                    <a class="nav_link" href="#">Contact</a>
+                    <a class="nav_link" href="/catalog">Catalog</a>
+                    <a class="nav_link" href="/blog" >Blog</a>
+                    <a class="nav_link" href="/login">Account</a>
+<!--                    <a class="cart_icon" href="/cart/"></a>-->
+                    <div class="cart_icon">
+                        {% with total_items=cart|length %}
+                        {% if cart|length > 0 %}
+                        <a href="{% url 'cart:cart_detail' %}"> {{ total_items }} , {{cart.get_total_price }}</a>
+                        {% else %}
+                        Pysto
+                        {% endif %}
+                        {% endwith %}
+                    </div>>
+                </nav>
+            </div>
+        </header>
+
+<!--        <div class="container" id="content">-->
+<!--         {% block content %}-->
+<!--         {% endblock %}-->
+<!--        </div>-->
+
+<!--    </div>-->
+<!--    </body>-->
+
+<!--</html>-->
+

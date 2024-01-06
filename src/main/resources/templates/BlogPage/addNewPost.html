@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" th:href="@{/Blog/create_post.css}" type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,700,300' rel='stylesheet' type='text/css'>
+    <title>Add publication</title>
+</head>
+<body>
+<header th:insert="pattern :: header"></header>
+
+<div class="container container-ver2">
+    <h1>Add new publication</h1>
+    <!--        метод передачи данных (get, post)-->
+    <div class="container-news">
+        <form class="form-horizontal" method="POST">
+            <div class="group box space-20">
+                <label class="control-label">Name of publication</label>
+                <input class="form-control" placeholder="Name of publication" name="postTitle" type="text">
+                <!--                        <input class="form-control" type="text" placeholder="Название новости"><br>-->
+                <!--                        {{ form.title }}<br>-->
+            </div>
+
+            <div class="group box space-20">
+                <label class="control-label">Short brief</label>
+                <input class="form-control" placeholder="Short brief" name="brief" type="text">
+                <!--                        <input class="form-control" type="text" placeholder="Анонс"><br>-->
+                <!--                        {{ form.anons }}<br>-->
+            </div>
+
+            <div class="group box space-20">
+                <label class="control-label">Full text</label>
+                <textarea class="form-control" placeholder="Add full text" name="fullText"></textarea>
+                <!--                        <textarea class="form-control">                        {{ form.full_text }}<br>-->
+            </div>
+
+            <!--                    <div class="group box space-20">-->
+            <!--                        <label class="control-label">Date of publication</label>-->
+            <!--                        <input class="form-control" placeholder="Date of publication" name="publDate" type="date">-->
+            <!--&lt;!&ndash;                        <input class="form-control" type="date" placeholder="Дата размещения"><br>&ndash;&gt;-->
+            <!--&lt;!&ndash;                        {{ form.date }}<br>&ndash;&gt;-->
+            <!--                    </div>-->
+
+            <div class="group box space-20">
+                <label class="control-label">Author</label>
+                <input class="form-control" placeholder="Author" name="author" type="text">
+                <!--                        <input class="form-control"type="text" placeholder="Автор"><br>-->
+                <!--                        {{ form.author }}<br>-->
+            </div>
+
+            <div>
+                <label class="control-label">Image</label>
+                <input class="form-control" placeholder="Изображение" name="imgUrl" type="image">
+            </div>
+
+            <button class="link-v1 color-brand" title="Add" type="submit">Add</button>
+            <!--            <button type="submit" class="link-v1 rt">LOGIN NOW</button>-->
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>
+

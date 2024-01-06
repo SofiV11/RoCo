@@ -1,0 +1,60 @@
+<!--{% extends "shop/base.html" %}-->
+<!--{% load static %}-->
+<!--{% block title %}-->
+<!--    {% if category %}{{ category.title }}{% else %}Products{% endif %}-->
+<!--{% endblock %}-->
+<!--{% block content %}-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link rel="stylesheet" th:href="@{/CatalogPage/product_detail.css}" type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,700,300' rel='stylesheet' type='text/css'>
+        <title>Product</title>
+</head>
+
+<body>
+   <div class="wrappage">
+      <header th:insert="pattern :: header"></header>
+
+   <div class="container" id="content">
+
+      <div class="product_block" xmlns="http://www.w3.org/1999/html">
+        <h1 id="prod_title" th:text="${product.name}"></h1>
+
+        <div class="pr_cat_nav">
+<!--        <p class="prod_cat"><a href="{% url "shop:product_list" %}">Все</a></p>-->
+        <p class="prod_cat" th:text="${product.category}">
+            <a th:href="'/Catalog/' + ${p.category}"></a>
+        </p>
+
+        </div>
+        <hr id="line">
+        <div class="prod_detail_block">
+<!--            <img class="detail_img" src="{% if productEnt.image %}{{ productEnt.image.url }}{% else %}{% static "img/productEnt.png" %}{% endif %}">-->
+            <img th:src="${product.imgUrl} ?: 'https://loremflickr.com/500/500/abstract,pastel/all'" alt=""
+                 th:class="${product.isAvailable} ? 'primary_image' : 'img_no_av'"/>
+            <div class="prod_info">
+               <p class="descr_label">Описание:</p>
+               <p id="descr" th:text="${product.descr}"></p>
+<!--               {{ productEnt.description|linebreaks }}-->
+               <p class="product_price" th:text="${product.price} + 'SSS'"></p>
+<!--                <form action="{% url "cart:cart_add" productEnt.id %}" method="POST">-->
+<!--                  {{ cart_product_form }}-->
+<!--                  {% csrf_token %}-->
+<!--                  <input type="submit" value="Add to cart">-->
+<!--                </form>-->
+            </div>
+        </div>
+     </div>
+   </div>
+   </div>
+
+</body>
+
+</html>
+
+
+<!--{% endblock %}-->

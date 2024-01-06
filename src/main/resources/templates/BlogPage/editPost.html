@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" th:href="@{/Blog/create_post.css}" type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,700,300' rel='stylesheet' type='text/css'>
+    <title>Edit publication</title>
+</head>
+<body>
+<header th:insert="pattern :: header"></header>
+
+<div class="container container-ver2">
+    <h1>Update publication</h1>
+    <!--        метод передачи данных (get, post)-->
+    <div class="container-news" th:each="el : ${post}">
+        <form class="form-horizontal"  method="POST">
+            <div class="group box space-20">
+                <label class="control-label">Name of publication</label>
+                <input class="form-control" th:value= "${el.postTitle}" placeholder="Name of publication" name="postTitle" type="text">
+            </div>
+
+            <div class="group box space-20">
+                <label class="control-label">Short brief</label>
+                <input class="form-control" th:value= "${el.brief}" placeholder="Short brief" name="brief" type="text">
+            </div>
+
+            <div class="group box space-20">
+                <label class="control-label">Full text</label>
+                <textarea class="form-control" th:text= "${el.fullText}" placeholder="Add full text" name="fullText"/>
+            </div>
+
+            <div class="group box space-20">
+                <label class="control-label">Author</label>
+                <input class="form-control" th:value= "${el.author}" placeholder="Author" name="author" type="text">
+            </div>
+
+            <div>
+                <label class="control-label">Image</label>
+                <input class="form-control" th:value= "${el.imgUrl}" placeholder="Изображение" name="imgUrl" type="image">
+            </div>
+
+            <button class="link-v1 color-brand" title="Add" type="submit">Update</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+
+<!--{% block title %}-->
+<!--{% if category %}{{ category.name }}{% else %}Products{% endif %}-->
+<!--{% endblock %}-->
+
+<!--{% block content %}-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" th:href="@{/CatalogPage/catalog_page.css}" type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,700,300' rel='stylesheet' type='text/css'>
+<!--    <title>{% block title %}Catalog{% endblock %}</title>-->
+    <title>Catalog</title>
+</head>
+<body>
+    <header th:insert="pattern :: header"></header>
+
+    <div class="container">
+
+    <div id="sidebar" class="cat_menu">
+
+<!--        <h1 id="catalog_header">{% if cat %}{{ cat.name }}{% else %}Products{% endif %}</h1>-->
+        <h1 id="catalog_header" th:text="${catlabel} ?: 'Products'"></h1>
+
+<!--        <h3>Categories</h3>-->
+        <ul class="cat_list">
+                    <li th:class=" ${catlabel} ? null: 'selected'">
+                    <a href="/Catalog" class="catlist_item">Все</a>
+                    </li>
+              <div th:each="c : ${categories}">
+<!--                     <li th:if ="${catlabel == c.label}" class="selected">-->
+                     <li th:class="${catlabel == c.label} ? 'selected' : ''">
+<!--                     <li th:if="${catlabel} == ${c.label}" class="selected">-->
+                     <a th:href="'/Catalog/category' + ${c.id}" class="catlist_item" th:text="${c.label}"></a>
+                     </li>
+<!--                  <li th:unless="${catlabel} != ${c.label}">-->
+<!--                      <a th:href="'/Catalog/category' + ${c.id}" class="catlist_item" th:text="${c.label}"></a>-->
+<!--                  </li>-->
+              </div>
+        </ul>
+        <div class="ordering">
+
+                   <form action="#" method="get" class="order-by">
+                         <p>Sort by :</p>
+                            <select class="orderby" name="orderby">
+                                <option>popularity</option>
+                                <option selected="selected">average rating</option>
+                                <option>newness</option>
+                                <option>price: low to high</option>
+                                <option>price: high to low</option>
+                            </select>
+                   </form>
+        </div>
+    </div>
+
+    <div class="products ver2 grid_full hover-shadow">
+
+<!--         {% for i in products %}-->
+         <div class="item-inner" th:each="i : ${products}">
+              <div class="product">
+                  <div class="product-images">
+                            <p th:if = "${not i.isAvailable}" id="no_av_label">No available</p>
+                            <a th:href="'Catalog/detail' + ${i.pk}" title="productEnt-images">
+                                <img th:src="${i.imgUrl} ?: 'https://loremflickr.com/250/250/abstract,pastel/all?random='+${i.pk}" alt=""
+                                     th:class="${i.isAvailable} ? 'primary_image' : 'img_no_av'"/>
+                            </a>
+                  </div>
+                        <a th:href="'Catalog/detail' + ${i.pk}"><p class="product_title" th:text="${i.name}"></p></a>
+                        <hr id="line">
+                        <p class="product_price" th:text="${i.price} + ' $$$'"></p>
+
+              </div>
+                    <!-- End productEnt -->
+         </div>
+<!--                {% endfor %}-->
+    </div>
+            
+    <div class="pagination-container">
+          <nav class="pagination align-right">
+             <a class="prev page-numbers" href="#"><i class="fa fa-angle-left"></i></a>
+             <span class="page-numbers current">1</span>
+             <a class="page-numbers" href="#">2</a>
+             <a class="page-numbers" href="#">3</a>
+             <a class="next page-numbers" href="#"><i class="fa fa-angle-right"></i></a>
+          </nav>
+    </div>
+    </div>
+
+</body>
+</html>

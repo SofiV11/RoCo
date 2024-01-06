@@ -1,0 +1,639 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,300);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700,500);
+@import url(https://fonts.googleapis.com/css?family=Oswald:400,300,700);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,300,900);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700);
+@import url(https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900);
+/** 1.1.2.	Icon Fonts **/
+@import url("../sass/components/Vendor/font-awesome/font-awesome.min.css");
+@import url("../sass/components/Vendor/simple-line-icon/css/simple-line-icons.css");
+@import url("../sass/components/Vendor/pe-icon-7-stroke/css/pe-icon-7-stroke.css");
+@import url("../sass/components/Vendor/pe-icon-7-stroke/css/helper.css");
+
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+.header{
+    width: 100%;
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
+    /* right: 0; */
+    z-index: 1000;
+    padding-top: 30px;
+    padding-right: 90px;
+    padding-left: 90px;
+    padding-bottom: 50px;
+}
+.header_inner{
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+
+.header_logo{
+    font-size: 40px;
+    font-weight: 700;
+    color: #817949;
+    margin: 1 4px;
+}
+
+#sidebar{;
+margin-bottom: 50px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.cat_menu
+{
+color: #817949;
+font-size: 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+#catalog_header{
+margin: 0;
+width: 235px;
+}
+
+.cat_list{
+}
+
+.catlist_item{
+margin: 0px 15px;
+font-size: 20px;
+color: #817949;
+text-decoration: overline;
+}
+
+.product_price{
+font-size: 20px;
+color: #817949;
+width: 100%;
+text-align: right;
+}
+
+#line{
+width: 100%;
+height: 2px;
+color: rgba(129, 121, 73, 0.4);
+}
+
+#no_av_label{
+position: absolute;
+font-size: 19px;
+width: 250px;
+height: 35px;
+z-index: 1;
+margin: 50px 0px;
+background-color: rgba(92, 27, 7, 0.5);
+font-weight: bold;
+color: #ebc6c3;
+}
+
+.product_block {
+    width: 100%;
+}
+
+.pr_cat_nav {
+    display: flex;
+    justify-content: flex-start;
+    list-style: none;
+}
+
+.prod_cat {
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+.prod_detail_block {
+    display: flex;
+    list-style: none;
+    margin-top: 35px;
+}
+.prod_info {
+    width: 50%;
+    padding: 0px 50px;
+}
+
+#prod_title{
+/*font-size: 18px;*/
+    font: 400 30px/30px "Playfair Display";
+    text-transform: uppercase;
+    position: relative;
+}
+
+.pagination-container {
+  display: inline-block;
+  width: 100%;
+}
+.container{
+margin: 0px 90px 0px 90px;
+}
+
+#descr{
+font: 300 18px/20px 'Roboto Condensed';
+font-variant: proportional-nums;
+}
+
+
+/*_______________Product detail___________________*/
+
+/*_______________Product detail___________________*/
+
+.descr_label{
+font-size: 30px;
+font-family: 'Oswald', sans-serif;
+font-style: oblique;
+font-weight: 100;
+}
+
+
+.nav{
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.nav_link{
+    display: inline-block;
+    vertical-align: top;
+    color: #817949;
+    margin: 0 15px;
+    text-decoration: none;
+    transition: color .2s linear;
+    position: relative;
+
+}
+
+.nav_link:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 3px;
+
+    background-color: #fce38a;
+    opacity: 0;
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+
+    transition: opacity .1s linear;
+}
+
+.nav_link:hover{
+    color: #95874e
+}
+
+.nav_link:hover:after {
+    opacity: 1;
+}
+
+
+body {
+  margin: 0;
+}
+
+header,
+nav {
+  display: block;
+}
+
+a {
+  background-color: transparent;
+}
+
+a:active,
+a:hover {
+  outline: 0;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+img {
+  border: 0;
+}
+
+hr {
+  box-sizing: content-box;
+  height: 0;
+}
+
+select {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+select {
+  text-transform: none;
+}
+
+/*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
+@media print {
+  *,
+  *:before,
+  *:after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+  a[href^="#"]:after {
+    content: "";
+  }
+  img {
+    page-break-inside: avoid;
+  }
+  img {
+    max-width: 100% !important;
+  }
+  p,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  h3 {
+    page-break-after: avoid;
+  }
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #333333;
+  background-color: #fff;
+}
+
+select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: #bc9e6b;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: #967844;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+img {
+  vertical-align: middle;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid;
+}
+
+h1, h3 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+
+h1, h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+
+ul {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.nav {
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.nav:before, .nav:after {
+  content: " ";
+  display: table;
+}
+
+.nav:after {
+  clear: both;
+}
+
+.pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
+
+/** 2. Reset **/
+/** 2.1. Reset **/
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  display: inline-block;
+  width: 100%;
+  color: #161616;
+  position: relative;
+  font-weight: 400;
+}
+
+a, p, ul, h1, h3 {
+  /* margin: 0; */
+  padding: 0;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+li {
+  list-style: none;
+  outline: none;
+  display: inline-block;
+}
+
+a:focus {
+  outline: none;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+body {
+  overflow-x: hidden;
+  position: relative;
+  right: 0;
+  left: 0px;
+}
+
+/*Transition*/
+body {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+/** 2.2. Default base **/
+/** 2.2.1.	Button **/
+
+/*Margin Bottom*/
+
+/** 4.13. Images Zoom **/
+
+
+
+/** 5. Ecommerce **/
+/** 5.1. Shop General **/
+.pagination-container {
+  display: inline-block;
+  width: 100%;
+}
+
+nav.pagination a, nav.pagination span {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  background: #eeeeee;
+  color: #333333;
+  vertical-align: bottom;
+}
+
+nav.pagination a:hover, nav.pagination span:hover {
+  background: #333333;
+  color: #eeeeee;
+}
+
+nav.pagination span {
+  background: #333333;
+  color: #eeeeee;
+}
+
+nav.pagination .next i, nav.pagination .prev i {
+  font-size: 18px;
+  color: #666;
+  margin-top: 8px;
+}
+
+nav.pagination .next:hover, nav.pagination .prev:hover {
+  background: #bc9e6b;
+}
+
+nav.pagination .next:hover i, nav.pagination .prev:hover i {
+  color: #eeeeee;
+}
+
+/** 5.2. Item view templates **/
+.products.grid_full .item-inner {
+  width: 20%;
+  float: left;
+  transition: all 0.3s ease 0s;
+}
+
+/** 5.3. Shop Widget **/
+
+/** 5.4. Shop view Pages **/
+
+@media (max-width: 1024px) {
+  .products.grid_full .item-inner {
+    width: 33.33%;
+  }
+}
+
+@media (max-width: 767px) {
+  .products.grid_full .item-inner {
+    width: 50%;
+  }
+}
+
+@media (max-width: 467px) {
+  .products.grid_full .item-inner {
+    width: 100%;
+  }
+  .ordering .order-by {
+    margin-top: 20px;
+    margin-left: 0px !important;
+  }
+}
+
+/** 5.5. Shop Single **/
+
+/** 5.6. Shop Cart **/
+
+/** 5.7. Shop Checkout **/
+
+/** 5.8. Shop Wishlist **/
+
+/** 5.9. Track Order **/
+.ordering {
+  font-size: 13px;
+  color: #333333;
+  display: inline-block;
+  height: 50px;
+  text-align: right;
+  display: inline-block;
+  /* bottom: auto; */
+  /* position: fixed; */
+}
+
+.ordering .order-by {
+  display: inline-block;
+  margin-left: 5px;
+  position: relative;
+}
+
+.ordering .order-by::after {
+  position: absolute;
+  content: "\f0d7";
+  top: 9px;
+  right: 10px;
+  font-family: FontAwesome;
+  line-height: 1;
+  font-size: 16px;
+  font-style: normal;
+  color: #e95252;
+}
+
+.ordering form {
+  vertical-align: bottom;
+  margin-top: 5px;
+  border: 1px solid #cdcdcd;
+  padding-left: 20px;
+}
+
+.ordering form p {
+  font: 300 18px "Roboto Condensed";
+  color: #000;
+  display: inline-block;
+}
+
+.ordering form select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  border: none;
+  box-shadow: none;
+  padding: 9px 20px 6px 3px;
+  outline: none;
+  color: #bc9e6b;
+  text-transform: capitalize;
+  font: 300 18px "Roboto Condensed";
+}
+
+.ordering form select option {
+  font: 300 18px "Roboto Condensed";
+}
+
+nav.pagination {
+  font-family: "Oswald";
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 30px;
+}
+
+nav.pagination span {
+  background: none;
+  color: #000;
+  font-weight: 700;
+}
+
+nav.pagination span:hover {
+  background: none;
+  color: #000;
+}
+
+nav.pagination a {
+  background: none;
+  font-weight: 700;
+  color: #a8a8a8;
+}
+
+nav.pagination a:hover {
+  background: none;
+  color: #000;
+}
+
+nav.pagination a.next, nav.pagination a.prev {
+  border: 1px solid #d6d6d6;
+  width: 45px;
+}
+
+nav.pagination a.next:hover, nav.pagination a.prev:hover {
+  background: none !important;
+}
+
+nav.pagination a.next:hover i, nav.pagination a.prev:hover i {
+  color: #bc9e6b;
+}
