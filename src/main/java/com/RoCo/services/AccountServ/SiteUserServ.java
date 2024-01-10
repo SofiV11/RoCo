@@ -6,10 +6,10 @@ import com.RoCo.repositories.AccountRepo.SiteUserRepo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +28,15 @@ public class SiteUserServ implements UserDetailsService {
     @Autowired
     SiteUserRepo roleRepo;
     @Autowired
-    BCryptPasswordEncoder bPassEncoder;
+    BCryptPasswordEncoder bPassEncoder; ///////////////
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        SiteUser user = userRepo.findByUserName(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("");
+        } else {return user;}
+//
     }
 
     public SiteUser findSiteUserById(Long id){
@@ -46,12 +50,17 @@ public class SiteUserServ implements UserDetailsService {
 
     public boolean saveSiteUser( SiteUser user){
         SiteUser userDb = userRepo.findByUserName(user.getUserName());
-        if(userDb != null) {return false;}
-        userDb.setUserName(user.getUserName());
-        userDb.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
-        userDb.setPass(bPassEncoder.encode(user.getPassword()));
-        userRepo.save(userDb);
-        return true;
+        if(userDb != null)
+            return false;
+        else {
+            userDb = new SiteUser();
+            userDb.setUserName(user.getUserName());
+            userDb.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+            //userDb.setPass(bPassEncoder.encode(user.getPassword()));
+            userDb.setPass(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(4)));
+            userRepo.save(userDb);
+            return true;
+        }
     }
 
     public boolean delSiteUser( SiteUser user){
@@ -67,6 +76,22 @@ public class SiteUserServ implements UserDetailsService {
         return em.createQuery("SELECT u.* FROM site_users WHERE u.id > :paramId", SiteUser.class)
                 .setParameter("paramId", idMin).getResultList();
     }
+
+
+    public Boolean siteUserCheck(String log, String pass){
+        //String dbPass = bPassEncoder.encode(pass);
+        //String dbPass = BCrypt.hashpw(pass, BCrypt.gensalt(4));
+//        String res = em.createQuery("SELECT u.* FROM site_users u" +
+//                                  "WHERE u.user_name = :log AND u.pass = :dbPass", SiteUser.class)
+//                .setParameter("log", log).setParameter("dbPass", dbPass).toString();
+        //if(userRepo.findByUserName(log).getPass())
+        //UserDetails ud = userRepo.findByUserName(log);
+        //if(userRepo.findByUserNameAndPass(log, dbPass) != null) return true;
+        //else return false;
+
+        return BCrypt.checkpw(pass.toString(), userRepo.findByUserName(log).getPass());
+    }
+
 
 //    public List<SiteUser> siteUsersByRole(String role){
 //        return em.createQuery("SELECT u.* FROM site_users u" +

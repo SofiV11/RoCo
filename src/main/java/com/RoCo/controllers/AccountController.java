@@ -1,22 +1,22 @@
 package com.RoCo.controllers;
 
 import com.RoCo.entities.Account.SiteUser;
-import com.RoCo.entities.NewsEnt.PostRec;
 import com.RoCo.repositories.AccountRepo.SiteUserRepo;
 import com.RoCo.services.AccountServ.SiteUserServ;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-
 @Controller
 public class AccountController {
+//    private final AuthenticationManager authenticationManager;
+//
+//    public AccountController(AuthenticationManager authenticationManager) {
+//        this.authenticationManager = authenticationManager;
+//    }
 
     @Autowired
     private SiteUserRepo userRepo;
@@ -33,53 +33,69 @@ public class AccountController {
         return "Account/myAcc.html";
     }
 
-    @GetMapping("/Registration") // login and registration for unknown, account page for auth user
+    @RequestMapping(value="/Registration", method = RequestMethod.GET) // login and registration for unknown, account page for auth user
     public String RegPage(Model model){
         model.addAttribute("userForm", new SiteUser());
         return "Account/registrationPage.html";
     }
 
-    @PostMapping("/Registration")
+    @GetMapping("/Account")
+    public String getAcc(Model model) {
+        return "Account/loginPage.html";
+    }
+
+
+    @RequestMapping(value="/Registration", method = RequestMethod.POST)
     public String regUser(@ModelAttribute("userForm") @Valid SiteUser userForm,
                           BindingResult bindingResult,
                           Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "Registration";
+            return "Account/registrationPage.html";
         }
         if (!userForm.getPassword().equals(userForm.getPassConfirm())){
             model.addAttribute("passwordError", "Пароли не совпадают");
-            return "Registration";
+            return "Account/registrationPage.html";
         }
         if (!userServ.saveSiteUser(userForm)){
             model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-            return "Registration";
+            return "Account/registrationPage.html";
         }
-
-//        model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-//        model.addAttribute("passwordError", "Пароли не совпадают");
         return "redirect:/MyAccount";
     }
 
 
-    @PostMapping("/Account")
-    public String getLogPass(@RequestParam  String login,
-                             @RequestParam  String pass,
+    @RequestMapping(value="/Account", method = RequestMethod.POST)
+    public String getLogPass(//@RequestParam(value="login", required = false)  String login,
+                             //@RequestParam(value="login", required = false)  String pass,
+                             @ModelAttribute("userData") @Valid SiteUser userData,
                              BindingResult bindingResult,
-                      //@RequestParam(value="imgUrl", required = false)  String imgUrl,
-                      Model model) {
+                             Model model
+                      //@RequestParam(value="imgUrl", required = false)  String imgUrl
+                              ) {
         if (bindingResult.hasErrors()) {
             return "/Account";
         }
-        return "redirect:/MyAccount";
+        if(!userServ.siteUserCheck(userData.getUserName(), userData.getPass())){
+            model.addAttribute("notFound", "User not found");
+            return "redirect:/Account";
+        }
+        else return "redirect:/MyAccount";
 
     }
 
-    @GetMapping("/Account")
-    public String getAcc(Model model) {
+//    @PostMapping("/login")
+//    public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest) {
+//        Authentication authenticationRequest =
+//                UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.username(), loginRequest.password());
+//        Authentication authenticationResponse =
+//                this.authenticationManager.authenticate(authenticationRequest);
+//        // ...
+//        return null;
+//    }
 
-        return "Account/loginPage.html";
-    }
+
+
 
 
 }

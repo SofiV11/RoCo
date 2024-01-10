@@ -4,19 +4,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" th:href="@{/Blog/create_post.css}" type='text/css'>
+    <link rel="stylesheet" th:href="@{/LoginPage/reg_page.css}" type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,700,300' rel='stylesheet' type='text/css'>
     <title>Sign Up</title>
 </head>
 <body>
-<header th:insert="pattern :: header"></header>
+<header th:insert="~{pattern :: header}"></header>
 <!--~{pattern :: header}-->
 
 <div class="container container-ver2">
     <h1>Registration</h1>
     <!--        метод передачи данных (get, post)-->
     <div class="container-news">
-        <form class="form-horizontal" method="POST" modelAttribute="userForm">
+        <form class="form-horizontal" method="POST" modelAttribute="userForm" th:action="@{/Registration}">
             <div class="group box space-20">
                 <label class="control-label">Username</label>
                 <input class="form-control" placeholder="Username" name="userName" type="text">

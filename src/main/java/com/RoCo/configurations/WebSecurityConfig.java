@@ -1,28 +1,49 @@
 package com.RoCo.configurations;
 
+import com.RoCo.entities.Account.SiteUser;
 import com.RoCo.services.AccountServ.SiteUserServ;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 
-@EnableWebSecurity
+
+@EnableWebSecurity(debug = true)
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@RequiredArgsConstructor
-public class WebSecurityConfig{
+//@RequiredArgsConstructor
+public class WebSecurityConfig {
 //    @Autowired
 //    SiteUserServ userServ;
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        UserDetails user = User.withUsername("user1")
+                .password(bCryptPasswordEncoder().encode("user1"))
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user);
+    }
+
+    @Bean
+    HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+        return new HiddenHttpMethodFilter();
     }
 
 //    protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -52,6 +73,8 @@ public class WebSecurityConfig{
 //                .logoutSuccessUrl("/");
 //    }
 
+
+    //Регистрация точек входа
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         //httpSecurity.csrf().disable();
@@ -64,7 +87,28 @@ public class WebSecurityConfig{
         //Доступ разрешен всем подряд
         //httpSecurity.authorizeRequests().antMatchers("/", "/resources/**").permitAll();
         //Все остальные страницы требуют аутентификации
-        httpSecurity.authorizeRequests().anyRequest().permitAll();
+
+        //httpSecurity.authorizeRequests().anyRequest().permitAll();
+
+//        httpSecurity.authorizeHttpRequests(authorizedHttpRequests
+//                        -> authorizedHttpRequests
+//                        //.requestMatchers("/MyAccount/**").authenticated()
+//                        .anyRequest().permitAll())
+//                ;
+
+        httpSecurity.httpBasic(httpBasic -> {})
+                    .authorizeHttpRequests(authorizeHttpReq ->
+                                  authorizeHttpReq
+                                                  //.requestMatchers("/*", "/error").permitAll() authenticated
+                                                    .anyRequest().permitAll()
+
+
+                    );
+
+//        httpSecurity.httpBasic(Customizer.withDefaults())
+//                    .formLogin(form -> form.loginPage("/Account").permitAll());
+
+
         //Настройка для входа в систему и перенарпавление на главную страницу после успешного входа
         //httpSecurity.formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll();
         // Настройки для выхода из системы
