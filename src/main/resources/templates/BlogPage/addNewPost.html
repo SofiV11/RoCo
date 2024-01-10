@@ -16,7 +16,7 @@
     <h1>Add new publication</h1>
     <!--        метод передачи данных (get, post)-->
     <div class="container-news">
-        <form class="form-horizontal" method="POST">
+        <form class="form-horizontal" method="POST" th:action="@{/Blog/addPost}">
             <div class="group box space-20">
                 <label class="control-label">Name of publication</label>
                 <input class="form-control" placeholder="Name of publication" name="postTitle" type="text">

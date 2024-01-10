@@ -26,21 +26,26 @@
                     <h3>sign in</h3>
                     <p>Hello, welcome to your account.</p>
 
-                    <form class="form-horizontal" method="POST">
+                    <div th:if="${param.logout}">
+                        You have been logged out.</div>
+
+                    <form class="form-horizontal" method="POST" th:action="@{/Account}" modelAttribute="userData" >
 <!--                    <form class="form-horizontal" method="POST" action="/login">   -->
                         <div class="group box space-20">
                             <label class="control-label" for="inputemail">LOGIN</label>
-                            <input class="form-control" type="text" placeholder="Username" id="inputemail" name="login">
+                            <input class="form-control" type="text" placeholder="Username" id="inputemail" name="userName">
                         </div>
                         <div class="group box">
-                            <label class="control-label" for="inputemail">PASSWORD</label>
+                            <label class="control-label" for="inputpass">PASSWORD</label>
                             <input class="form-control" type="text" placeholder="Password" id="inputpass" name="pass">
                         </div>
-                        <div class="remember">
-                            <input id="remeber" type="checkbox" name="check" value="remeber">
-                            <label for="remeber" class="label-check">remember me!</label>
-                            <a class="help" href="#" title="help ?">Fogot your password?</a>
-                        </div>
+
+                        <div th:if="${notFound}" th:text="${notFound}"></div>
+<!--                        <div class="remember">-->
+<!--                            <input id="remeber" type="checkbox" name="check" value="remeber">-->
+<!--                            <label for="remeber" class="label-check">remember me!</label>-->
+<!--                            <a class="help" href="#" title="help ?">Fogot your password?</a>-->
+<!--                        </div>-->
                         <button type="submit" class="link-v1 rt">LOGIN NOW</button>
                     </form>
                     <!-- End form -->
