@@ -2,15 +2,21 @@ package com.RoCo.controllers;
 
 import com.RoCo.entities.NewsEnt.PostRec;
 import com.RoCo.repositories.NewsRepo.PostRecRepo;
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -18,6 +24,9 @@ public class NewsController {
 
     @Autowired
     private PostRecRepo postRepo;
+
+    @Value("${upload.path}") // получение значения для переменной
+    private String uploadPath;
 
     @GetMapping("/Blog")
     public String BlogPage(Model model){
@@ -33,14 +42,14 @@ public class NewsController {
 
 
     //@PostMapping("/Blog/addPost")
-    @RequestMapping(value = "/Blog/addPost", method = RequestMethod.POST)
+    @RequestMapping(value = "/Blog/addPost", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String GetNewPostData( @RequestParam  String postTitle,
                                   @RequestParam  String brief,
                                   @RequestParam  String fullText,
                                 //@RequestParam  Date publDate,
                                   @RequestParam  String author,
-                                  @RequestParam(value="imgUrl", required = false)  String imgUrl,
-                                  Model model){
+                                  @RequestParam(value="img", required = false) MultipartFile img,
+                                  Model model) throws IOException {
         //Date dateP = new Date(publDate);
 //        try {
 //            SimpleDateFormat simpleDateFormat = new SimpleDateFormat ("dd.MM.yyyy");
@@ -50,15 +59,37 @@ public class NewsController {
 //        }
         Date publDate = new Date(System.currentTimeMillis());
 
-        if (imgUrl == null || imgUrl.isEmpty() ) {
-            PostRec publication = new PostRec(postTitle, brief, fullText, publDate, author);
-            postRepo.save(publication);
+//        if (imgUrl == null || imgUrl.isEmpty() ) {
+//            PostRec publication = new PostRec(postTitle, brief, fullText, publDate, author);
+//            postRepo.save(publication);
+//        }
+//        else {
+//            PostRec publication = new PostRec(postTitle, brief, fullText, publDate, author, imgUrl);
+//            postRepo.save(publication);
+//        }
+
+        if (img != null) {
+            try (InputStream is = img.getInputStream()) {
+                //System.out.println( "Size:  " + is.available());
+                File uploadDir = new File(uploadPath);
+
+                if(!uploadDir.exists()){
+                    uploadDir.mkdir();
+                }
+                //String uuidFile = UUID.randomUUID().toString();
+                String imgName = img.getOriginalFilename();
+
+                img.transferTo(new File(uploadPath + "/" + imgName));
+
+                PostRec publication = new PostRec(postTitle, brief, fullText, publDate, author, "images/" + imgName);
+                postRepo.save(publication);
+
+            } catch (IOException e) {
+                //throw new RuntimeException(e);
+                PostRec publication = new PostRec(postTitle, brief, fullText, publDate, author);
+                postRepo.save(publication);
+            }
         }
-        else {
-            PostRec publication = new PostRec(postTitle, brief, fullText, publDate, author, imgUrl);
-            postRepo.save(publication);
-        }
-        //postRepo.save(publication);
         Iterable<PostRec> posts = postRepo.findAll();
         model.addAttribute("posts", posts);
         return "redirect:/Blog";
@@ -69,14 +100,21 @@ public class NewsController {
 
         if (postRepo.existsById(id)){
 
-            Optional<PostRec> postrec = postRepo.findById(id);
-            ArrayList<PostRec> data = new ArrayList<>();
-            postrec.ifPresent(data::add);
-            model.addAttribute("post", data);
+//            Optional<PostRec> postrec = postRepo.findById(id);
+//            ArrayList<PostRec> data = new ArrayList<>();
+//            postrec.ifPresent(data::add);
+//            model.addAttribute("post", data);
+//
+//
 
             PostRec rec = postRepo.findById(id).orElseThrow();
+            model.addAttribute("post", rec);
             Iterable<PostRec> samePosts = postRepo.findAllByAuthor(rec.getAuthor());
-            model.addAttribute("samePosts", samePosts);
+
+            ArrayList<PostRec> sameP = new ArrayList<>();
+            samePosts.forEach(sameP::add);
+            sameP.removeIf(e -> e.getPk().equals(rec.getPk()));
+            model.addAttribute("samePosts", sameP);
             return "BlogPage/postDetail.html";
         }
         else return "BlogPage/blogPage.html";
@@ -102,7 +140,7 @@ public class NewsController {
                               @RequestParam  String fullText,
                               //@RequestParam  Date publDate,
                               @RequestParam  String author,
-                              @RequestParam(value="imgUrl", required = false)  String imgUrl,
+                              @RequestParam(value="img", required = false)  MultipartFile img,
                               Model model){
         PostRec postrec = postRepo.findById(id).orElseThrow();
         postrec.setPostTitle(postTitle);
@@ -110,7 +148,30 @@ public class NewsController {
         postrec.setFullText(fullText);
 //        postrec.setPublDate();
         postrec.setAuthor(author);
-        postrec.setImgUrl(imgUrl);
+
+        if (!img.isEmpty()) {
+            try (InputStream is = img.getInputStream()) {
+                //System.out.println( "Size:  " + is.available());
+                File uploadDir = new File(uploadPath);
+
+                if(!uploadDir.exists()){
+                    uploadDir.mkdir();
+                }
+                //String uuidFile = UUID.randomUUID().toString();
+                String imgName = img.getOriginalFilename();
+
+                img.transferTo(new File(uploadPath + "/" + imgName));
+
+                postrec.setImgUrl("images/" + imgName);
+
+            } catch (IOException e) {
+                //throw new RuntimeException(e);
+            }
+        }
+
+
+
+
         postRepo.save(postrec);
         return "redirect:/Blog";
     }

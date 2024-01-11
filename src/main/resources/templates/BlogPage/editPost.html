@@ -13,9 +13,9 @@
 
 <div class="container container-ver2">
     <h1>Update publication</h1>
-    <!--        метод передачи данных (get, post)-->
+    <!--        метод передачи данных (get, post) http://localhost:8080/Blog/post103/@%7B/Blog/post103/edit%7D -->
     <div class="container-news" th:each="el : ${post}">
-        <form class="form-horizontal"  method="POST">
+        <form class="form-horizontal"  method="POST" th:action="@{'/Blog/post'+${el.pk}+'/edit'}" enctype="multipart/form-data">
             <div class="group box space-20">
                 <label class="control-label">Name of publication</label>
                 <input class="form-control" th:value= "${el.postTitle}" placeholder="Name of publication" name="postTitle" type="text">
@@ -38,7 +38,7 @@
 
             <div>
                 <label class="control-label">Image</label>
-                <input class="form-control" th:value= "${el.imgUrl}" placeholder="Изображение" name="imgUrl" type="image">
+                <input class="form-control" th:value= "${el.imgUrl}" placeholder="Изображение" name="img" type="file">
             </div>
 
             <button class="link-v1 color-brand" title="Add" type="submit">Update</button>

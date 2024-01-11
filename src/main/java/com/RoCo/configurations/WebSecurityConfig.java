@@ -11,14 +11,21 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import static org.springframework.security.config.http.MatcherType.mvc;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 
 @EnableWebSecurity(debug = true)
@@ -41,10 +48,13 @@ public class WebSecurityConfig {
         return new InMemoryUserDetailsManager(user);
     }
 
-    @Bean
-    HiddenHttpMethodFilter hiddenHttpMethodFilter() {
-        return new HiddenHttpMethodFilter();
-    }
+//    @Autowired
+//    MvcRequestMatcher.Builder mvc;
+
+//    @Bean
+//    HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+//        return new HiddenHttpMethodFilter();
+//    }
 
 //    protected void configure(HttpSecurity httpSecurity) throws Exception {
 //        httpSecurity
@@ -74,6 +84,16 @@ public class WebSecurityConfig {
 //    }
 
 
+
+    @Bean
+    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector);
+    }
+//    @Bean
+//    WebSecurityCustomizer ignoringCustomizer() {
+//        return (web) -> web.ignoring().requestMatchers(AntPathRequestMatcher.antMatcher("/static/**"));
+//    }
+
     //Регистрация точек входа
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -99,12 +119,13 @@ public class WebSecurityConfig {
         httpSecurity.httpBasic(httpBasic -> {})
                     .authorizeHttpRequests(authorizeHttpReq ->
                                   authorizeHttpReq
-                                                  //.requestMatchers("/*", "/error").permitAll() authenticated
+                                          //.requestMatchers(AntPathRequestMatcher.antMatcher("/static")).permitAll()
                                                     .anyRequest().permitAll()
 
 
                     );
 
+//
 //        httpSecurity.httpBasic(Customizer.withDefaults())
 //                    .formLogin(form -> form.loginPage("/Account").permitAll());
 

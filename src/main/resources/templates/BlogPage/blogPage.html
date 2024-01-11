@@ -35,7 +35,8 @@
 <!--                   {% for el in news%}-->
                     <div class="blog-post-item left">
                         <div class="blog-post-image hover-images">
-                            <a th:href="'/Blog/post' + ${el.pk}" title="Post"><img th:src ="${el.imgUrl} ?: 'Blog/img/no_img.png'" alt=""></a>
+                            <a th:href="'/Blog/post' + ${el.pk}" title="Post"><img th:src =" @{${el.imgUrl}} ?: 'Blog/img/no_img.png'" alt=""></a>
+<!--                            <a th:href="'/Blog/post' + ${el.pk}" title="Post"><img th:src ="${el.imgUrl} ? '/img/' + ${el.imgUrl}: 'Blog/img/no_img.png'" alt=""></a>-->
                         </div>
 
                         <div class="text">
