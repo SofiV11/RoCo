@@ -300,9 +300,9 @@ body {
   font-weight: 400;
 }
 
-body.ver-1 {
+/*body.ver-1 {
   background: url("../images/Futurelife-bg-body.png") repeat scroll 0 0;
-}
+}*/
 
 input[type=text]::-ms-clear {
   display: none;

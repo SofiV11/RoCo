@@ -30,7 +30,7 @@
                         <!-- End head -->
                         <div class="block2">
                             <div class="blog-post-image2">
-                                <a href="#" title="Post"><img class="img-responsive" src="assets/images/blog-details.jpg" alt=""></a>
+                                <a href="#" title="Post"><img class="img-responsive" th:src =" @{ '/' + ${el.imgUrl}} ?: 'Blog/img/no_img.png'" alt=""></a>
                             </div>
                             <p class="text align-left" th:text="${el.fullText}"></p>
                         </div>
@@ -45,13 +45,13 @@
 
                         <div class="text align-left">
                             <!-- End box-shadow -->
-                            <!-- End share -->
+
                             <h3 class="title-v2">Related Posts</h3>
                             <div class="rel_post_box" >
 <!--                                <div class="rel-post-box" >-->
                                     <div class="blog-post-item2" th:each="i : ${samePosts}">
                                         <div class="blog-post-image3">
-                                            <a th:href="'/Blog/post' + ${i.pk}" title="Post"><img src="assets/images/ImgBlog/3.jpg" alt=""></a>
+                                                <img th:src =" @{ '/' + ${i.imgUrl}} ?: 'Blog/img/no_img.png'"  alt="" th:href="'/Blog/post' + ${i.pk}" class="inner_img">
                                         </div>
                                         <div class="text2">
                                             <h3><a th:href="'/Blog/post' + ${i.pk}" th:text="${i.postTitle}"></a></h3>

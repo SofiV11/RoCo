@@ -3,7 +3,7 @@
 <!--<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>-->
 
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -28,25 +28,31 @@
 
                     <div th:if="${param.logout}">
                         You have been logged out.</div>
+<!--                    <div th:text="${isAuth} ?: ' ' "></div>-->
 
-                    <form class="form-horizontal" method="POST" th:action="@{/Account}" modelAttribute="userData" >
+<!--                    <form class="form-horizontal" method="POST" th:action="@{/Account}" modelAttribute="userData" >-->
+                    <form class="form-horizontal" method="POST" th:action="@{/Account}" >
 <!--                    <form class="form-horizontal" method="POST" action="/login">   -->
                         <div class="group box space-20">
                             <label class="control-label" for="inputemail">LOGIN</label>
-                            <input class="form-control" type="text" placeholder="Username" id="inputemail" name="userName">
+                            <input class="form-control" type="text" placeholder="Username" id="inputemail" name="username">
                         </div>
                         <div class="group box">
                             <label class="control-label" for="inputpass">PASSWORD</label>
-                            <input class="form-control" type="text" placeholder="Password" id="inputpass" name="pass">
+                            <input class="form-control" type="password" placeholder="Password" id="inputpass" name="password">
                         </div>
 
-                        <div th:if="${notFound}" th:text="${notFound}"></div>
+                        <div class="group box space-20" th:if="${param.error}">
+                            Неправильные имя или пароль.
+                        </div>
+
+<!--                        <div th:if="${notFound}" th:text="${notFound}"></div>-->
 <!--                        <div class="remember">-->
 <!--                            <input id="remeber" type="checkbox" name="check" value="remeber">-->
 <!--                            <label for="remeber" class="label-check">remember me!</label>-->
 <!--                            <a class="help" href="#" title="help ?">Fogot your password?</a>-->
 <!--                        </div>-->
-                        <button type="submit" class="link-v1 rt">LOGIN NOW</button>
+                        <button type="submit" class="link-v1 rt">LOG IN</button>
                     </form>
                     <!-- End form -->
                     <h3 class="simpleh3">or</h3>

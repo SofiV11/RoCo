@@ -16,7 +16,7 @@
     <h1>Add new publication</h1>
     <!--        метод передачи данных (get, post)-->
     <div class="container-news">
-        <form class="form-horizontal" method="POST" th:action="@{/Blog/addPost}">
+        <form class="form-horizontal" method="POST" th:action="@{/Blog/addPost}" enctype="multipart/form-data">
             <div class="group box space-20">
                 <label class="control-label">Name of publication</label>
                 <input class="form-control" placeholder="Name of publication" name="postTitle" type="text">
@@ -53,7 +53,8 @@
 
             <div>
                 <label class="control-label">Image</label>
-                <input class="form-control" placeholder="Изображение" name="imgUrl" type="image">
+                <input class="form-control" placeholder="Изображение" name="img" type="file" >
+<!--                th:field="*{img}"-->
             </div>
 
             <button class="link-v1 color-brand" title="Add" type="submit">Add</button>

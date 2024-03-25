@@ -126,8 +126,8 @@ public class DefProductServ implements ProductServ{
     // with mapping
     @Override
     public void addProduct(Product product) {
-        ProductEnt productEnt = mapper.productToProductEnt(product);
-        productRepo.save(productEnt);
+        //ProductEnt productEnt = mapper.productToProductEnt(product);
+        productRepo.save(productToProductEnt(product));
     }
 
 
@@ -172,10 +172,17 @@ public class DefProductServ implements ProductServ{
 
     @Override
     public ProductCatEnt getCatEntByLabel(String label) {
-//        return productCatRepo
-//                .findById(label) // returns Optional<productEnt>
-//                .orElseThrow( () -> new ProductNotFoundException("Category not found: id = " + id));
-        return null;
+        return productCatRepo
+                .findByLabel(label) // returns Optional<productEnt>
+         ;
+    }
+
+    @Override
+    public List<Product> getPresentProducts() {
+        return getAllProducts().stream()
+                .filter( p -> p.getPrice() > 50 && p.getIsAvailable())
+                .limit(12)
+                .toList();
     }
 
     @Override
@@ -184,6 +191,24 @@ public class DefProductServ implements ProductServ{
         return StreamSupport.stream(iterable.spliterator(), false)
                 .map(mapper::productEntToProduct)
                 .collect(Collectors.toList());
+    }
+
+    public ProductEnt productToProductEnt(Product product) {
+        if ( product == null ) {
+            return null;
+        }
+
+        ProductEnt productEnt = new ProductEnt();
+
+        productEnt.setPk( product.getPk() );
+        productEnt.setName( product.getName() );
+        productEnt.setCategoryId( getCatEntByLabel(product.getCategory()) );
+        productEnt.setPrice( product.getPrice() );
+        productEnt.setImgUrl( product.getImgUrl() );
+        productEnt.setAvailable( product.getIsAvailable() );
+        productEnt.setDescr( product.getDescr() );
+
+        return productEnt;
     }
 
 }

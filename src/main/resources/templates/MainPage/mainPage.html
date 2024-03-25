@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <link th:href="@{MainPage/main_page.css}" rel="stylesheet" >
     <link rel="preconnect" href="https://fonts.google.com/">
     <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+
     <title>RoCo</title>
 </head>
 <body>
@@ -26,131 +27,177 @@
 
     <header th:insert="pattern :: header"></header>
 
-    <div class="intro" style="background: linear-gradient(#000000 , 45%, #054026); ">
-       <div class="container2">
-           <div class="intro_inner">
-              <h2 class="intro_suptitle"></h2>
-<!--              <h1 class="intro_title">Welcome to MoGo</h1>-->
-               <a class="btn" href="about">Learn More</a>
+    <div class="intro">
+
+        <div class="maincontainer">
+           <div class="hlayout">
+               <div class="vlayout">
+                   <div class="hlayout">
+                       <div class="component1 cmpshape"></div>
+                       <div class="component2 cmpshape"></div>
+                   </div>
+                   <div class="slider cmpshape">
+                       <div class="slider__line">
+                           <div class="row" th:each="i : ${products}">
+                               <div class="rowContent">
+                                   <div class="product-images">
+                                       <a th:href="'Catalog/detail' + ${i.pk}" title="productEnt-images">
+                                           <img th:src="${i.imgUrl} ?: 'https://loremflickr.com/250/250/abstract,pastel/all?random='+${i.pk}" alt=""
+                                                class="primary_image"/>
+                                       </a>
+                                   </div>
+                                   <a th:href="'Catalog/detail' + ${i.pk}"><p class="product_title" th:text="${i.name}"></p></a>
+                                   <p class="product_price" th:text="${i.price} + ' $$$'"></p>
+                               </div>
+                           </div>
+                       </div>
+                       <button class="arrowToPrev">
+                           <img src="" alt="">
+                       </button>
+                       <button class="arrowToNext">
+                           <img src="" alt="">
+                       </button>
+<!--                       <div class="slider__wrapper">-->
+<!--                           <div class="slider_dot active-dot"></div>-->
+<!--                           <div class="slider_dot"></div>-->
+<!--                           <div class="slider_dot"></div>-->
+<!--                       </div>-->
+
+                   </div>
+               </div>
+               <div class="map cmpshape"></div>
            </div>
-       </div>
-    </div>
-
-    <section class="section">
-        <div class="container">
-            <div class="section_header">
-                <h3 class="section_subtitle">What we do</h3>
-                <h2 class="section_title">story about us</h2>
-                <div class="section_text">
-                    <p>Let a square array of n rows and n columns be given. It is necessary to assign the value 1 to the elements located on the main diagonal running from the upper left corner to the lower right (that is, those elements A [i] [j] for which ij), the value 0 to the elements located above the main diagonal, to the elements located below the main diagonal - the value 2. That is, to get such an array (example for n = 4):</p>
-                </div>
-            </div>
-
-            <div class="about">
-                <div class="about_item">
-                    <div class="about_img">
-                        <img src="{% static 'main/img/a3.jpg' %}" alt="">
-                    </div>
-                    <div class="about_text">Super city</div>
-                </div>
-                <div class="about_item">
-                    <div class="about_img">
-                        <img src="{%static 'main/img/a1.jpg' %}" alt="">
-                        <div class="about_text">Super bus</div>
-                    </div>
-                </div>
-                  <div class="about_item">
-                    <div class="about_img">
-                        <img src="{% static 'main/img/a2.jpg' %}" alt="">
-                        <div class="about_text">Super creative</div>
-                    </div>
-                  </div>
-                </div>
-            </div>
-    </section>
-
-    <div class="statistics">
-        <div class="container">
-
-            <div class="stat">
-                <div class="stat_item">
-                    <div class="stat_count">42</div>
-                    <div class="stat_text">Cup of beer</div>
-                </div>
-                <div class="stat_item">
-                    <div class="stat_count">27</div>
-                    <div class="stat_text">Weekends</div>
-                </div>
-                <div class="stat_item">
-                    <div class="stat_count">6</div>
-                    <div class="stat_text">Places</div>
-                </div>
-                <div class="stat_item">
-                    <div class="stat_count">76</div>
-                    <div class="stat_text">Shooting sigarets</div>
-                </div>
-                <div class="stat_item">
-                    <div class="stat_count">24</div>
-                    <div class="stat_text">Hours of hangover</div>
-                </div>
-            </div>
-
         </div>
+
+
+
+<!--       <div class="container2">-->
+<!--           <div class="intro_inner" id="leanmore">-->
+<!--              <h2 class="intro_suptitle"></h2>-->
+<!--&lt;!&ndash;              <h1 class="intro_title">Welcome to MoGo</h1>&ndash;&gt;-->
+<!--               <a class="btn" >Learn More</a>-->
+<!--           </div>-->
+<!--       </div>-->
+
     </div>
 
-    <section class="section">
-       <div class="container">
-           <div class="section_header">
-                <h3 class="section_subtitle">What we do</h3>
-                <h2 class="section_title">Amazing entertainment</h2>
-
-               <div class="services">
-                   <div class="services_item">
-                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D0%B3%D0%BE%D1%80%D0%BE%D0%B4-%D0%BD%D0%B0-%D0%BB%D1%83%D0%BD%D0%B5-50.png' %}" alt="">
-
-                       <div class="services_title">Night-Girl</div>
-                       <div class="services_text">Nightbird, but not a butterfly</div>
-                   </div>
-                   <div class="services_item">
-                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D0%B1%D1%83%D0%BC%D0%B1%D0%BE%D0%BA%D1%81-50.png' %}" alt="">
 
 
-                       <div class="services_title">Disco-Govnar'</div>
-                       <div class="services_text">...And in the living room by candlelight she danced like a god</div>
-                   </div>
-                   <div class="services_item">
-                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D0%BA%D0%BE%D0%BA%D1%82%D0%B5%D0%B9%D0%BB%D1%8C-50.png' %}" alt="">
+<!--    <section class="section">-->
+<!--        <div class="container">-->
+<!--            <div class="section_header">-->
+<!--                <h3 class="section_subtitle">What we do</h3>-->
+<!--                <h2 class="section_title">story about us</h2>-->
+<!--                <div class="section_text">-->
+<!--                    <p>Let a square array of n rows and n columns be given. It is necessary to assign the value 1 to the elements located on the main diagonal running from the upper left corner to the lower right (that is, those elements A [i] [j] for which ij), the value 0 to the elements located above the main diagonal, to the elements located below the main diagonal - the value 2. That is, to get such an array (example for n = 4):</p>-->
+<!--                </div>-->
+<!--            </div>-->
 
-                       <div class="services_title">Drink-Ambassador</div>
-                       <div class="services_text">She loves alcohol as much as she hates hangovers.</div>
-                   </div>
-               </div>
+<!--            <div class="about">-->
+<!--                <div class="about_item">-->
+<!--                    <div class="about_img">-->
+<!--                        <img src="{% static 'main/img/a3.jpg' %}" alt="">-->
+<!--                    </div>-->
+<!--                    <div class="about_text">Super city</div>-->
+<!--                </div>-->
+<!--                <div class="about_item">-->
+<!--                    <div class="about_img">-->
+<!--                        <img src="{%static 'main/img/a1.jpg' %}" alt="">-->
+<!--                        <div class="about_text">Super bus</div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                  <div class="about_item">-->
+<!--                    <div class="about_img">-->
+<!--                        <img src="{% static 'main/img/a2.jpg' %}" alt="">-->
+<!--                        <div class="about_text">Super creative</div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--    </section>-->
 
-               <hr>
+<!--    <div class="statistics">-->
+<!--        <div class="container">-->
 
-               <div class="services">
-                   <div class="services_item">
-                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D0%BA%D0%B8%D0%BD%D0%BE%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BE%D1%80-50.png' %}" alt="">
+<!--            <div class="stat">-->
+<!--                <div class="stat_item">-->
+<!--                    <div class="stat_count">42</div>-->
+<!--                    <div class="stat_text">Cup of beer</div>-->
+<!--                </div>-->
+<!--                <div class="stat_item">-->
+<!--                    <div class="stat_count">27</div>-->
+<!--                    <div class="stat_text">Weekends</div>-->
+<!--                </div>-->
+<!--                <div class="stat_item">-->
+<!--                    <div class="stat_count">6</div>-->
+<!--                    <div class="stat_text">Places</div>-->
+<!--                </div>-->
+<!--                <div class="stat_item">-->
+<!--                    <div class="stat_count">76</div>-->
+<!--                    <div class="stat_text">Shooting sigarets</div>-->
+<!--                </div>-->
+<!--                <div class="stat_item">-->
+<!--                    <div class="stat_count">24</div>-->
+<!--                    <div class="stat_text">Hours of hangover</div>-->
+<!--                </div>-->
+<!--            </div>-->
 
-                       <div class="services_title">Author's-Movies</div>
-                       <div class="services_text">Best cinema in the instagam(Sas tv)</div>
-                   </div>
-                   <div class="services_item">
-                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D1%81%D0%B5%D0%BA%D1%81%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9-%D0%BC%D0%B0%D0%BD%D1%8C%D1%8F%D0%BA-50.png' %}" alt="">
+<!--        </div>-->
+<!--    </div>-->
 
-                       <div class="services_title">Big Ass(ets)</div>
-                       <div class="services_text">Anorexic in remission</div>
-                   </div>
-                   <div class="services_item">
-                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D0%BA%D0%BE%D0%BF%D0%B8%D0%BB%D0%BA%D0%B0-50.png' %}" alt="">
+<!--    <section class="section">-->
+<!--       <div class="container">-->
+<!--           <div class="section_header">-->
+<!--                <h3 class="section_subtitle">What we do</h3>-->
+<!--                <h2 class="section_title">Amazing entertainment</h2>-->
 
-                       <div class="services_title">Money adept</div>
-                       <div class="services_text">She knows all about piggy banks</div>
-                   </div>
-               </div>
-          </div>
-       </div>
-   </section>
-   <script src="app.js"></script>
+<!--               <div class="services">-->
+<!--                   <div class="services_item">-->
+<!--                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D0%B3%D0%BE%D1%80%D0%BE%D0%B4-%D0%BD%D0%B0-%D0%BB%D1%83%D0%BD%D0%B5-50.png' %}" alt="">-->
+
+<!--                       <div class="services_title">Night-Girl</div>-->
+<!--                       <div class="services_text">Nightbird, but not a butterfly</div>-->
+<!--                   </div>-->
+<!--                   <div class="services_item">-->
+<!--                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D0%B1%D1%83%D0%BC%D0%B1%D0%BE%D0%BA%D1%81-50.png' %}" alt="">-->
+
+
+<!--                       <div class="services_title">Disco-Govnar'</div>-->
+<!--                       <div class="services_text">...And in the living room by candlelight she danced like a god</div>-->
+<!--                   </div>-->
+<!--                   <div class="services_item">-->
+<!--                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D0%BA%D0%BE%D0%BA%D1%82%D0%B5%D0%B9%D0%BB%D1%8C-50.png' %}" alt="">-->
+
+<!--                       <div class="services_title">Drink-Ambassador</div>-->
+<!--                       <div class="services_text">She loves alcohol as much as she hates hangovers.</div>-->
+<!--                   </div>-->
+<!--               </div>-->
+
+<!--               <hr>-->
+
+<!--&lt;!&ndash;               <div class="services">&ndash;&gt;-->
+<!--&lt;!&ndash;                   <div class="services_item">&ndash;&gt;-->
+<!--&lt;!&ndash;                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D0%BA%D0%B8%D0%BD%D0%BE%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BE%D1%80-50.png' %}" alt="">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                       <div class="services_title">Author's-Movies</div>&ndash;&gt;-->
+<!--&lt;!&ndash;                       <div class="services_text">Best cinema in the instagam(Sas tv)</div>&ndash;&gt;-->
+<!--&lt;!&ndash;                   </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                   <div class="services_item">&ndash;&gt;-->
+<!--&lt;!&ndash;                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D1%81%D0%B5%D0%BA%D1%81%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9-%D0%BC%D0%B0%D0%BD%D1%8C%D1%8F%D0%BA-50.png' %}" alt="">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                       <div class="services_title">Big Ass(ets)</div>&ndash;&gt;-->
+<!--&lt;!&ndash;                       <div class="services_text">Anorexic in remission</div>&ndash;&gt;-->
+<!--&lt;!&ndash;                   </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                   <div class="services_item">&ndash;&gt;-->
+<!--&lt;!&ndash;                       <img class="services_item" src="{% static 'main/img/icon/icons8-%D0%BA%D0%BE%D0%BF%D0%B8%D0%BB%D0%BA%D0%B0-50.png' %}" alt="">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                       <div class="services_title">Money adept</div>&ndash;&gt;-->
+<!--&lt;!&ndash;                       <div class="services_text">She knows all about piggy banks</div>&ndash;&gt;-->
+<!--&lt;!&ndash;                   </div>&ndash;&gt;-->
+<!--&lt;!&ndash;               </div>&ndash;&gt;-->
+<!--          </div>-->
+<!--       </div>-->
+<!--   </section>-->
+<script src="/js/main-page.js" type="text/javascript"></script>
 </body>
 </html>
