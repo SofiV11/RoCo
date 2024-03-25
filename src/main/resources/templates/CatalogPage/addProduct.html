@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" th:href="@{/CatalogPage/add_product.css}" type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,700,300' rel='stylesheet' type='text/css'>
+    <title>Add publication</title>
+</head>
+<body>
+<header th:insert="pattern :: header"></header>
+
+<div class="container container-ver2">
+    <h1>Add new product</h1>
+    <!--        метод передачи данных (get, post)-->
+    <div class="container-news">
+        <form class="form-horizontal" method="POST" th:action="@{/Catalog/add}" enctype="multipart/form-data">
+
+            <div class="group box space-20">
+                <label class="control-label">Product name</label>
+                <input class="form-control" placeholder="Product name" name="name" type="text">
+            </div>
+
+<!--            <div class="group box space-20">-->
+<!--                <label class="control-label">Category</label>-->
+<!--                <input class="form-control" placeholder="Category" name="category" type="text">-->
+<!--            </div>-->
+
+            <div class="group box space-20">
+                <label class="control-label">Category</label>
+<!--                <select th:field="*{categoryId}">-->
+                <select name="category">
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.label}"></option>
+                </select>
+            </div>
+
+            <div class="group box space-20">
+                <label class="control-label">Price</label>
+                <input class="form-control" placeholder="Price" name="price" type="number">
+            </div>
+
+            <div class="group box space-20">
+                <label class="control-label">Is Available</label>
+                <input class="form-control" name="isAvailable" type="checkbox">
+            </div>
+
+            <div class="group box space-20">
+                <label class="control-label">Prodi=uct description</label>
+                <textarea class="form-control" placeholder="Add full text" name="descr"></textarea>
+                <!--                        <textarea class="form-control">                        {{ form.full_text }}<br>-->
+            </div>
+
+            <!--                    <div class="group box space-20">-->
+            <!--                        <label class="control-label">Date of publication</label>-->
+            <!--                        <input class="form-control" placeholder="Date of publication" name="publDate" type="date">-->
+            <!--&lt;!&ndash;                        <input class="form-control" type="date" placeholder="Дата размещения"><br>&ndash;&gt;-->
+            <!--&lt;!&ndash;                        {{ form.date }}<br>&ndash;&gt;-->
+            <!--                    </div>-->
+
+
+
+            <div>
+                <label class="control-label">Image</label>
+                <input class="form-control" placeholder="Choose image" name="img" type="file" >
+                <!--                th:field="*{img}"-->
+            </div>
+
+            <button class="link-v1 color-brand" title="Add" type="submit">Add</button>
+            <!--            <button type="submit" class="link-v1 rt">LOGIN NOW</button>-->
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>
+

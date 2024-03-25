@@ -1,10 +1,3 @@
-
-<!--{% block title %}-->
-<!--{% if category %}{{ category.name }}{% else %}Products{% endif %}-->
-<!--{% endblock %}-->
-
-<!--{% block content %}-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
@@ -68,7 +61,7 @@
                                      th:class="${i.isAvailable} ? 'primary_image' : 'img_no_av'"/>
                             </a>
                   </div>
-                        <a th:href="'Catalog/detail' + ${i.pk}"><p class="product_title" th:text="${i.name}"></p></a>
+                        <a th:href="'/Catalog/detail' + ${i.pk}"><p class="product_title" th:text="${i.name}"></p></a>
                         <hr id="line">
                         <p class="product_price" th:text="${i.price} + ' $$$'"></p>
 
@@ -88,6 +81,8 @@
           </nav>
     </div>
     </div>
+
+    <a class="link-v1 color-brand add-new" href="/Catalog/add" title="add_new">Add new</a>
 
 </body>
 </html>

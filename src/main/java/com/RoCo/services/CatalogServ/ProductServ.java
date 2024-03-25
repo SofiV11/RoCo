@@ -25,4 +25,6 @@ public interface ProductServ {
     ProductCatEnt getCatEntById(Long id);
     ProductCatEnt getCatEntByLabel(String label);
 
+    List<Product> getPresentProducts();
+
 }

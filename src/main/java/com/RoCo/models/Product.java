@@ -12,6 +12,14 @@ import java.util.Objects;
 //Book — это класс сервисного слоя, а BookEntity — DAO
 //@Value
 public class Product {
+
+    private final Long pk;
+    private final String name;
+    private final String category;
+    private final Double price;
+    private final String imgUrl;
+    private final Boolean isAvailable;
+    private final String descr;
     public Long getPk() {
         return pk;
     }
@@ -39,14 +47,6 @@ public class Product {
     public String getDescr() {
         return descr;
     }
-
-    private final Long pk;
-    private final String name;
-    private final String category;
-    private final Double price;
-    private final String imgUrl;
-    private final Boolean isAvailable;
-    private final String descr;
 
     public Product(Long pk, String name, String category, Double price, String imgUrl, Boolean isAvailable, String descr) {
         this.pk = pk;

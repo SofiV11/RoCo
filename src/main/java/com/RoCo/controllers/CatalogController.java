@@ -2,18 +2,23 @@ package com.RoCo.controllers;
 
 
 import com.RoCo.entities.CatalogEnt.ProductCatEnt;
+import com.RoCo.entities.NewsEnt.PostRec;
 import com.RoCo.mappers.ProductToDtoMapper;
 import com.RoCo.models.Product;
 import com.RoCo.services.CatalogServ.ProductServ;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -29,6 +34,9 @@ public class CatalogController {
 //        this.productServ = productServ;
 //        this.mapper = mapper;
 //    }
+    @Value("${upload.path}") // получение значения для переменной
+    private String uploadPath;
+
 
     @GetMapping("/Catalog/detail{id}")
     public String ProductDetail(@PathVariable Long id, Model model){
@@ -55,6 +63,52 @@ public class CatalogController {
         return "CatalogPage/productList.html";
     }
 
+
+    @GetMapping("/Catalog/add")
+    public String AddNewProduct(Model model){
+        List<ProductCatEnt> categories= productServ.getAllCategories();
+        model.addAttribute("categories", categories);
+        return "CatalogPage/addProduct.html";
+    }
+
+
+    @PostMapping("/Catalog/add")
+    public String AddNewProduct( @RequestParam  String name,
+                                 @RequestParam  Long category,
+                                 @RequestParam  Double price,
+                                 @RequestParam  Boolean isAvailable,
+                                 @RequestParam  String descr,
+                                 @RequestParam(value="img", required = false) MultipartFile img,
+                                 Model model) throws IOException {
+        if (img != null) {
+            try (InputStream is = img.getInputStream()) {
+                //System.out.println( "Size:  " + is.available());
+                File uploadDir = new File(uploadPath);
+
+                if(!uploadDir.exists()){
+                    uploadDir.mkdir();
+                }
+                //String uuidFile = UUID.randomUUID().toString();
+                String imgName = img.getOriginalFilename();
+
+                img.transferTo(new File(uploadPath + "/" + imgName));
+
+                productServ.addProduct(new Product(null, name, productServ.getCatEntById(category).getLabel(), price, ("images/" + imgName), isAvailable, descr));
+
+            } catch (IOException e) {
+                //throw new RuntimeException(e);
+                productServ.addProduct(new Product(null, name, productServ.getCatEntById(category).getLabel(), price, null, isAvailable, descr));
+            }
+        }
+
+        List<Product> products = productServ.getAllProducts();
+        model.addAttribute("products", products);
+
+//        List<ProductCatEnt> categories= productServ.getAllCategories();
+//        model.addAttribute("categories", categories);
+
+        return "redirect:/Catalog"; // or html
+    }
 
 
 

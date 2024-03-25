@@ -11,6 +11,5 @@ import java.util.List;
 
 @Repository
 public interface ProductCatRepo extends CrudRepository <ProductCatEnt, Long>{
-
-
+    ProductCatEnt findByLabel(String label);
 }

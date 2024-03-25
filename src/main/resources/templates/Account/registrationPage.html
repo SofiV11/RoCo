@@ -16,27 +16,28 @@
     <h1>Registration</h1>
     <!--        метод передачи данных (get, post)-->
     <div class="container-news">
-        <form class="form-horizontal" method="POST" modelAttribute="userForm" th:action="@{/Registration}">
+<!--        <form class="form-horizontal" method="POST" modelAttribute="user" th:action="@{/Registration}" th:object="${user}">-->
+        <form class="form-horizontal" method="POST" th:action="@{/Registration}" th:object="${user}" modelAttribute="user">
             <div class="group box space-20">
                 <label class="control-label">Username</label>
-                <input class="form-control" placeholder="Username" name="userName" type="text">
+                <input class="form-control" placeholder="Username" name="username" type="text" th:field="*{username}">
                 <label class="control-label" th:text="${usernameError} ?: ''"></label>
-                <!--                        <input class="form-control" type="text" placeholder="Название новости"><br>-->
-                <!--                        {{ form.title }}<br>-->
             </div>
 
             <div class="group box space-20">
                 <label class="control-label">Password</label>
-                <input class="form-control" name="pass" type="password">
-                <!--                        <input class="form-control" type="text" placeholder="Анонс"><br>-->
-                <!--                        {{ form.anons }}<br>-->
+                <input class="form-control" name="password" type="password" th:field="*{password}">
             </div>
 
             <div class="group box space-20">
                 <label class="control-label">Confirm password</label>
-                <input class="form-control" name="passConfirm" type="password"></input>
-                <!--                        <textarea class="form-control">                        {{ form.full_text }}<br>-->
+                <input class="form-control" name="matchingPassword" type="password" th:field="*{matchingPassword}">
                 <label class="control-label" th:text="${passwordError} ?: ''"></label>
+            </div>
+
+            <div class="group box space-20">
+                <label class="control-label">Enter email</label>
+                <input class="form-control" name="email" type="email" th:field="*{email}"></input>
             </div>
 
             <button class="link-v1 color-brand" title="Add" type="submit">Next Step</button>
