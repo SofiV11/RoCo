@@ -77,4 +77,32 @@ public class User {
     public BucketEnt getBucket() {
         return bucket;
     }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(@Nullable String email) {
+        this.email = email;
+    }
+
+    public void setArchive(boolean archive) {
+        this.archive = archive;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public void setBucket(@Nullable BucketEnt bucket) {
+        this.bucket = bucket;
+    }
 }

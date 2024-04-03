@@ -27,4 +27,6 @@ public interface ProductServ {
 
     List<Product> getPresentProducts();
 
+    void addToUserBucket(Long productId, String username);
+
 }

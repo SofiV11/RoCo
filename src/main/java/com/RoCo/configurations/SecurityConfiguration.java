@@ -62,7 +62,7 @@ public class SecurityConfiguration{
                                     .requestMatchers(mvcMatcherBuilder.pattern("/Blog/addPost")).hasAuthority(UserRole.ADMIN.name())
                                     //.requestMatchers("/Blog/addPost").hasAuthority(UserRole.ADMIN.name())
                                     .requestMatchers(mvcMatcherBuilder.pattern("/Catalog/add")).hasAuthority(UserRole.ADMIN.name())
-                                    .requestMatchers(mvcMatcherBuilder.pattern("/MyAccount")).hasAuthority(UserRole.CLIENT.name())
+                                    .requestMatchers(mvcMatcherBuilder.pattern("/MyAccount")).hasAnyAuthority(UserRole.CLIENT.name(), UserRole.ADMIN.name())
 //                                    .requestMatchers("/").permitAll()
 //                                    .requestMatchers("/login").permitAll()
                                     .anyRequest().permitAll()
@@ -71,30 +71,23 @@ public class SecurityConfiguration{
                             form
                                     .loginPage("/Account")
                                     .loginProcessingUrl("/Account")
-                                    .defaultSuccessUrl("/MyAccount")
+                                    //.failureUrl("/Account-error")
+                                    .defaultSuccessUrl("/Account")
                                     .permitAll()
                     )
                     .logout(logout ->
                             logout
                                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                    .logoutSuccessUrl("/")
+                                    .logoutSuccessUrl("/Account")
                                     .deleteCookies("JSESSIONID")
                                     .invalidateHttpSession(true)
 
 
                     );
-//                    .exceptionHandling(exception ->
-//                            exception
-//                                    .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-//                    )
-//                    .csrf(csrf -> csrf.disable());
 
         return http.build();
 
     }
-//    @Bean
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userService);
-//    }
+
 
 }

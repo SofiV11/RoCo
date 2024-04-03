@@ -4,7 +4,9 @@ package com.RoCo.controllers;
 import com.RoCo.entities.CatalogEnt.ProductCatEnt;
 import com.RoCo.entities.NewsEnt.PostRec;
 import com.RoCo.mappers.ProductToDtoMapper;
+import com.RoCo.models.BucketDto;
 import com.RoCo.models.Product;
+import com.RoCo.services.CatalogServ.BucketServ;
 import com.RoCo.services.CatalogServ.ProductServ;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +30,11 @@ import java.util.List;
 public class CatalogController {
     @Autowired
     private ProductServ productServ;
+
+    @Autowired
+    private BucketServ bucketServ;
+
+
 
 //    private final ProductToDtoMapper mapper;
 //
@@ -108,6 +116,30 @@ public class CatalogController {
 //        model.addAttribute("categories", categories);
 
         return "redirect:/Catalog"; // or html
+    }
+
+
+    @GetMapping("/bucket_{id}")
+    public String addBucket(@PathVariable Long id, Principal principal, Model model){
+        if(principal == null){
+            return "redirect:/Catalog";
+        }
+
+        productServ.addToUserBucket(id, principal.getName());
+
+        //model.addAttribute("bucketCount", bucketServ.getCountProductsInBucket(principal));
+        return "redirect:/Catalog/detail%s".formatted(id);
+    }
+
+    @GetMapping("/Bucket")
+    public String showBucket(Model model, Principal principal){
+        if(principal==null){
+            model.addAttribute("bucket", new BucketDto());
+        } else {
+            BucketDto bucketDto = bucketServ.getBucketByUSer(principal.getName());
+            model.addAttribute("bucket", bucketDto);
+        }
+        return "CatalogPage/bucket.html";
     }
 
 

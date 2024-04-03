@@ -56,17 +56,11 @@ public class UserController {
                           Model model) {
 
         if(userServ.save(user)){
-            return "redirect:/Account/myAcc.html";
+            return "redirect:/Account";
         } else {
             model.addAttribute("user", user);
             return "redirect:/Registration";
         }
 
     }
-
-    @GetMapping("/MyAccount") // login and registration for unknown, account page for auth user
-    public String MyAccount(Model model){
-        return "Account/myAcc.html";
-    }
-
 }

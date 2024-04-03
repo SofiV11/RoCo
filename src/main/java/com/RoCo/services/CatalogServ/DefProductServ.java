@@ -1,6 +1,8 @@
 package com.RoCo.services.CatalogServ;
 
 
+import com.RoCo.entities.Account.User;
+import com.RoCo.entities.CatalogEnt.BucketEnt;
 import com.RoCo.entities.CatalogEnt.ProductCatEnt;
 import com.RoCo.entities.CatalogEnt.ProductEnt;
 import com.RoCo.mappers.ProductToEntMapper;
@@ -8,11 +10,14 @@ import com.RoCo.models.Product;
 import com.RoCo.exceptions.CatalogExc.ProductNotFoundException;
 import com.RoCo.repositories.CatalogRepo.ProductCatRepo;
 import com.RoCo.repositories.CatalogRepo.ProductRepo;
+import com.RoCo.services.AccountServ.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -30,11 +35,17 @@ public class DefProductServ implements ProductServ{
 
     private final ProductCatRepo productCatRepo;
 
+    private final BucketServ bucketServ;
 
-    public DefProductServ(ProductRepo productRepo, ProductToEntMapper mapper, ProductCatRepo productCatRepo) {
+    private final UserService userServ;
+
+
+    public DefProductServ(ProductRepo productRepo, ProductToEntMapper mapper, ProductCatRepo productCatRepo, BucketServ bucketServ, UserService userServ) {
         this.productRepo = productRepo;
         this.mapper = mapper;
         this.productCatRepo = productCatRepo;
+        this.bucketServ = bucketServ;
+        this.userServ = userServ;
     }
 
     // without mapping
@@ -209,6 +220,22 @@ public class DefProductServ implements ProductServ{
         productEnt.setDescr( product.getDescr() );
 
         return productEnt;
+    }
+
+    public void addToUserBucket(Long productId, String username ){
+        User user = userServ.findByUsername(username);
+        if (user == null){
+            throw new RuntimeException("User not found");
+        }
+
+        BucketEnt bucket = user.getBucket();
+        if(bucket==null){
+            BucketEnt newBucket = bucketServ.createBucket(user, Collections.singletonList(productId));
+            user.setBucket(newBucket);
+            userServ.save(user);
+        } else {
+            bucketServ.addProducts(bucket, Collections.singletonList(productId));
+        }
     }
 
 }

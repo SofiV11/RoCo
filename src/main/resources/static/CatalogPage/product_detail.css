@@ -637,3 +637,32 @@ nav.pagination a.next:hover, nav.pagination a.prev:hover {
 nav.pagination a.next:hover i, nav.pagination a.prev:hover i {
   color: #bc9e6b;
 }
+
+.add-new{
+  font: 700 16px/38px "Roboto Condensed";
+  color: #333;
+  width: 180px;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid #e4e4e4;
+  text-transform: uppercase;
+  transition: all 0.3s ease 0s;
+  color: #bc9e6b;
+  border-color: #bc9e6b;
+  margin-top: 25px;
+  color: #bc9e6b;
+  border-color: #bc9e6b;
+}
+
+.img_container{
+}
+img.primary_image {
+    object-fit: cover;
+    width: 100%;
+}
+
+.img_container {
+    overflow: hidden;
+    max-width: 500px;
+    max-height: 500px;
+}
