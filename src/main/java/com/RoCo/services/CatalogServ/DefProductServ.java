@@ -12,6 +12,8 @@ import com.RoCo.repositories.CatalogRepo.ProductCatRepo;
 import com.RoCo.repositories.CatalogRepo.ProductRepo;
 import com.RoCo.services.AccountServ.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -108,6 +110,17 @@ public class DefProductServ implements ProductServ{
         }
         return products;
     }
+
+
+//    public Page<Product> getAllProductsP(){
+//        Iterable<ProductEnt> iterable = productRepo.findAll(); // returns Iterable<>
+//        Page<Product> products = new Page<>();
+//        for(ProductEnt productEnt : iterable){
+//            products.(mapper.productEntToProduct(productEnt));
+//        }
+//        return products;
+//    }
+
 
 
 
@@ -237,5 +250,12 @@ public class DefProductServ implements ProductServ{
             bucketServ.addProducts(bucket, Collections.singletonList(productId));
         }
     }
+
+//    @Override
+//    public Page<Product> findByCategoryIdAndNameContaining(String name, ProductCatEnt category, Sort sort) {
+//        return (Page<Product>) productRepo.findByCategoryIdAndNameContaining(name, category, sort)
+//                .stream()
+//                .map(mapper::productEntToProduct);
+//    }
 
 }

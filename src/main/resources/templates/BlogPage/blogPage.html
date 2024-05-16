@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -55,7 +55,10 @@
 <!--                   {% endfor %}-->
                </div>
                </div>
+
+            <div sec:authorize="hasRole('ADMIN')">
                <a class="link-v1 color-brand add-new" href="/Blog/addPost" title="add_new">Add new</a>
+            </div>
             </div>
             <!-- End container -->
         </div>

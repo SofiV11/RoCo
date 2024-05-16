@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <base href="/" />
     <link th:href="@{MainPage/main_page.css}" rel="stylesheet" >
     <link rel="preconnect" href="https://fonts.google.com/">
     <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
@@ -33,10 +34,17 @@
            <div class="hlayout">
                <div class="vlayout">
                    <div class="hlayout">
-                       <div class="component1 cmpshape"></div>
+                       <div class="component1 cmpshape">
+                           <div class="anek_background">
+                           <div class="anek_text_block" th:text="${anek}"></div>
+                           </div>
+                       </div>
                        <div class="component2 cmpshape"></div>
                    </div>
                    <div class="slider cmpshape">
+                       <button class="arrowToPrev">
+                           <img src="" alt="">
+                       </button>
                        <div class="slider__line">
                            <div class="row" th:each="i : ${products}">
                                <div class="rowContent">
@@ -51,9 +59,6 @@
                                </div>
                            </div>
                        </div>
-                       <button class="arrowToPrev">
-                           <img src="" alt="">
-                       </button>
                        <button class="arrowToNext">
                            <img src="" alt="">
                        </button>
@@ -80,6 +85,18 @@
 <!--       </div>-->
 
     </div>
+
+<!--<div class="wrapper">-->
+<!--    <button class="previous">Go 2 Left</button>-->
+<!--    <div class="overflow">-->
+<!--        <div class="bloco">Day 1</div>-->
+<!--        <div class="bloco">Day 2</div>-->
+<!--        <div class="bloco">Day 3</div>-->
+<!--        <div class="bloco">Day 4</div>-->
+<!--        <div class="bloco">Day 5</div>-->
+<!--    </div>-->
+<!--    <button class="next">Go 2 Right</button>-->
+<!--</div>-->
 
 
 

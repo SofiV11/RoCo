@@ -10,6 +10,8 @@ public class BucketDetailDto {
     private Double sum;
     private String imgUrl;
 
+    private Double shipping;
+
     public BucketDetailDto(ProductEnt product){
         this.title = product.getName();
         this.productId = product.getPk();

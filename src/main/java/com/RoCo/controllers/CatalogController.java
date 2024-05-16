@@ -11,6 +11,7 @@ import com.RoCo.services.CatalogServ.ProductServ;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,8 @@ import java.io.InputStream;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 
 @Controller
 //@RequestMapping("/catalog")
@@ -33,6 +36,7 @@ public class CatalogController {
 
     @Autowired
     private BucketServ bucketServ;
+
 
 
 
@@ -61,6 +65,35 @@ public class CatalogController {
         model.addAttribute("catlabel", null);
         return "CatalogPage/productList.html";
     }
+
+//    @GetMapping("/Catalog")
+//    public String getProducts(Model model,
+//                              @RequestParam(defaultValue = "1") int page,
+//                              @RequestParam(defaultValue = "id,asc") String[] sort,
+//                              @RequestParam(required = false) String keyword,)
+//
+//    {
+//        String sortField = sort[0];
+//        String sortDirection = sort[1];
+//
+//        Direction direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+//        Order order = new Order(direction, sortField);
+//        Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(order));
+//        Page<Product> pages;
+//        if (keyword == null) {
+//            pages = productServ.getAllProducts();
+//        } else {
+//            pages = productServ.findByTitleContainingIgnoreCase(keyword, pageable);
+//            model.addAttribute("keyword", keyword);
+//        }
+//        List<Product> products= productServ.getAllProducts();
+//        List<ProductCatEnt> categories= productServ.getAllCategories(); //List<String> getAllCategories()
+//        model.addAttribute("products", products);
+//        model.addAttribute("categories", categories);
+//        model.addAttribute("catlabel", null);
+//        return "CatalogPage/productList.html";
+//    }
+
     @GetMapping("/Catalog/category{cat_id}")
     public String CatalogPAgeCateg( @PathVariable Long cat_id, Model model){
         List<Product> products = productServ.findByCategory(cat_id);

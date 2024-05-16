@@ -92,22 +92,20 @@
                 <div class="col-md-6 sign-in space-30" >
                     <span sec:authentication="principal.username"></span>
                     <div>
-                    <a th:href="@{/logout}">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="page-login box space-50" sec:authorize="hasRole('ADMIN')">
-            <div class="row">
-                <div class="col-md-6 sign-in space-30" >
-                    <div sec:authentication="name"></div>
-                    <div sec:authentication="principal.authorities"></div>
-                    <div>
+                        <div>You're already authenticated!</div>
                         <a th:href="@{/logout}">Logout</a>
                     </div>
                 </div>
             </div>
         </div>
+<!--        <div class="page-login box space-50" sec:authorize="hasAuthority('ADMIN')">-->
+<!--            <div class="row">-->
+<!--                <div class="col-md-6 sign-in space-30" >-->
+<!--                    <div sec:authentication="name"></div>-->
+<!--                    <div sec:authentication="principal.authorities"></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
                 <!-- End col-md-6 -->
 <!--                <div class="col-md-6">-->

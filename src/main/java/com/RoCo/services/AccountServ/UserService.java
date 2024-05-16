@@ -104,4 +104,8 @@ public class UserService implements UserDetailsService {
 //                .build();
 //    }
 
+    public List<User> getAllUsersForAdmin(){
+        return userRepo.findAllByRoleNot(UserRole.ADMIN);
+    }
+
 }

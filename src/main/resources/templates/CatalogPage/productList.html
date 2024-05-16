@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -106,8 +106,9 @@
     </div>
 
 
-    <div >
-    <a class="link-v1 color-brand add-new" href="/Catalog/add" title="add_new">Add new</a>
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <a class="link-v1 color-brand add-new" href="/Catalog/add" title="add_new">Add new</a>
+    </div>
 
 <!--    <div class="grid">-->
 <!--        <div class="product1" th:each="i : ${products}">-->

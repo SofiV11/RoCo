@@ -16,6 +16,7 @@ import java.util.List;
 public class BucketDto {
     private int amountProducts;
     private Double sum;
+    private Double shipping;
     private List<BucketDetailDto> bucketDetails = new ArrayList<>();
 
     public void aggregate(){
@@ -24,6 +25,7 @@ public class BucketDto {
                 .map(BucketDetailDto::getSum)
                 .mapToDouble(Double::doubleValue)
                 .sum();
+        this.shipping = this.sum / 5;
     }
 
     public void setAmountProducts(int amountProducts) {
@@ -48,5 +50,13 @@ public class BucketDto {
 
     public List<BucketDetailDto> getBucketDetails() {
         return bucketDetails;
+    }
+
+    public Double getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(Double shipping) {
+        this.shipping = shipping;
     }
 }
