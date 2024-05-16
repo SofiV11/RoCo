@@ -3,10 +3,11 @@
 <!--<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>-->
 
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link th:href="@{LoginPage/login_page.css}" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <!--        <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>-->
     <!--        <link rel="stylesheet" type="text/css" href="assets/vendor/owl-slider.css"/>-->
@@ -20,18 +21,42 @@
     <header th:insert="pattern :: header"></header>
     <!-- End banner -->
     <div class="container container-ver2">
+        <div class="page-login box space-50" sec:authorize="hasAuthority('ADMIN')">
+            <div class="row">
+                <div class="col-md-6 sign-in space-30" >
+                    <div sec:authentication="name"></div>
+                    <div sec:authentication="principal.authorities"></div>
+                </div>
+            </div>
 
-
-
-
-
-    </div>
+            <table class="table cart-table space-80">
+                <thead>
+                <tr id="tab_header">
+                    <th class="username">Username</th>
+                    <th class="user-role">Role</th>
+<!--                    <th class="last-active">Last active</th>-->
+                    <th class="bucket-state">Bucket state</th>
+                    <th class="block-state">Block state</th>
+                </tr>
+                </thead>
+                <tbody th:each="u : ${usersList}">
+                <tr class="item_cart">
+                    <td class="username" th:text="${u.name}"></td>
+                    <td class="user-role" th:text="${u.role}"><a href="#"></a></td>
+<!--                    <td class="last-active" th:text="${b.sum}"></td>-->
+<!--                    <td class="bucket-state" th:text="${u.bucket} == null ? 'empty' : ${u.bucket.bucketId}"></td>-->
+                    <td class="block-state" th:text="${u.archive} ? 'blocked' : 'active'"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-</div>
-</div>
-</div>
 
+
+
+
+
+
+    </div>
 </div>
 </body>
 

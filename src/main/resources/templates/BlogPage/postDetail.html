@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -35,7 +35,7 @@
                             <p class="text align-left" th:text="${el.fullText}"></p>
                         </div>
 
-                        <div class="block3">
+                        <div class="block3" sec:authorize="hasAuthority('ADMIN')">
                             <a title="Edit" th:href="'/Blog/post' + ${el.pk} + '/edit'" class="rt2">Edit</a>
                             <form th:action = "'/Blog/post' + ${el.pk} + '/delete'" method="POST">
                                 <button title="Delete" class="rt2" type="submit">Delete</button>
@@ -128,19 +128,21 @@
                         </div>
                     </div>
                     <!-- End panel -->
-                    <h3 class="title">LEAVE A COMMENT</h3>
-                    <form class="form-horizontal space-50">
-                        <div class="form-group col-md-6">
-                            <input type="text" placeholder="Name*" id="inputName" class="form-control">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <input type="text" placeholder="Email*" id="inputsumary" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <textarea placeholder="Comment" name="Comment" id="message" class="form-control"></textarea>
-                        </div>
-                        <a title="add tags" href="#" class="link-v1 rt">Send review</a>
-                    </form>
+                    <div sec:authorize="isAuthenticated()">
+                     <h3 class="title">LEAVE A COMMENT</h3>
+                         <form class="form-horizontal space-50">
+                            <div class="form-group col-md-6">
+                             <input type="text" placeholder="Name*" id="inputName" class="form-control">
+                              </div>
+                             <div class="form-group col-md-6">
+                              <input type="text" placeholder="Email*" id="inputsumary" class="form-control">
+                              </div>
+                              <div class="form-group">
+                               <textarea placeholder="Comment" name="Comment" id="message" class="form-control"></textarea>
+                             </div>
+                             <a title="add tags" href="#" class="link-v1 rt">Send review</a>
+                        </form>
+                    </div>
                     <!-- End form -->
                 </div>
             </div>

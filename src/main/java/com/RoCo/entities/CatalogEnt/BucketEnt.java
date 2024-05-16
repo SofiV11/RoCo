@@ -33,4 +33,29 @@ public class BucketEnt {
             , inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private List<ProductEnt> products;
+
+
+    public Long getBucketId() {
+        return bucketId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public List<ProductEnt> getProducts() {
+        return products;
+    }
+
+    public void setBucketId(Long bucketId) {
+        this.bucketId = bucketId;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setProducts(List<ProductEnt> products) {
+        this.products = products;
+    }
 }

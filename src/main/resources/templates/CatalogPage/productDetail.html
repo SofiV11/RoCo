@@ -5,7 +5,7 @@
 <!--{% endblock %}-->
 <!--{% block content %}-->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -34,8 +34,10 @@
         <hr id="line">
         <div class="prod_detail_block">
 <!--            <img class="detail_img" src="{% if productEnt.image %}{{ productEnt.image.url }}{% else %}{% static "img/productEnt.png" %}{% endif %}">-->
-            <img th:src="${product.imgUrl} ?: 'https://loremflickr.com/500/500/abstract,pastel/all'" alt=""
+            <div class="img_container">
+                <img th:src="'/' + ${product.imgUrl} ?: 'https://loremflickr.com/500/500/abstract,pastel/all'" alt=""
                  th:class="${product.isAvailable} ? 'primary_image' : 'img_no_av'"/>
+            </div>
             <div class="prod_info">
                <p class="descr_label">Описание:</p>
                <p id="descr" th:text="${product.descr}"></p>
@@ -46,6 +48,13 @@
 <!--                  {% csrf_token %}-->
 <!--                  <input type="submit" value="Add to cart">-->
 <!--                </form>-->
+
+                <div sec:authorize="isAuthenticated()">
+                   <a class="link-v1 color-brand add-new" th:href="'/bucket_'+ ${product.pk}" title="add_new">ADD TO CART </a>
+                </div>
+                <div sec:authorize="!isAuthenticated()">
+                    <a class="link-v1 color-brand add-new" href="/Account" title="add_new">ADD TO CART </a>
+                </div>
             </div>
         </div>
      </div>

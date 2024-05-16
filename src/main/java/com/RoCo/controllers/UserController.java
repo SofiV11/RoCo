@@ -2,11 +2,13 @@ package com.RoCo.controllers;
 
 
 import com.RoCo.entities.Account.User;
+import com.RoCo.entities.Account.UserRole;
 import com.RoCo.models.SiteUserDto;
 import com.RoCo.repositories.AccountRepo.UserRepo;
 import com.RoCo.services.AccountServ.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +24,22 @@ public class UserController {
     @GetMapping("/Account")
     public String getLogin(Model model) {
         //model.addAttribute("isAuth", userServ.findLoggedInUsername());
-        return "Account/loginPage.html";
+//        if(SecurityContextHolder.getContext().getAuthentication().getName()!=null
+//                || !SecurityContextHolder.getContext().getAuthentication().getName().isEmpty()){
+            String authRole =
+                    SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+                            .stream()
+                            .findFirst()
+                            .get().toString()
+                            ;
+            if(authRole.equals(UserRole.ADMIN.name())){
+                model.addAttribute("usersList", userServ.getAllUsersForAdmin());
+                return "Account/myAcc.html";
+            } else if (authRole.equals(UserRole.CLIENT.name())) return "Account/myAcc.html";
+            else return "Account/loginPage.html";
+
+//        }
+//        return "Account/loginPage.html";
     }
 
 //    @RequestMapping(value="/Account", method = RequestMethod.POST)
@@ -56,17 +73,11 @@ public class UserController {
                           Model model) {
 
         if(userServ.save(user)){
-            return "redirect:/Account/myAcc.html";
+            return "redirect:/Account";
         } else {
             model.addAttribute("user", user);
             return "redirect:/Registration";
         }
 
     }
-
-    @GetMapping("/MyAccount") // login and registration for unknown, account page for auth user
-    public String MyAccount(Model model){
-        return "Account/myAcc.html";
-    }
-
 }

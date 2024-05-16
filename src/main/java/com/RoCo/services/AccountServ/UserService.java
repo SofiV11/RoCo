@@ -21,8 +21,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -71,6 +73,11 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
         return true;
     }
+
+    public void save(User user){
+        userRepo.save(user);
+    }
+
     public String findLoggedInUsername() {
         Object userDetails =
                 SecurityContextHolder.getContext().getAuthentication().getDetails();
@@ -78,6 +85,27 @@ public class UserService implements UserDetailsService {
             return ((UserDetails) userDetails).getUsername();
         }
         return null;
+    }
+
+    public User findByUsername(String username){
+        return userRepo.findFirstByName(username);
+    }
+
+//    public List<SiteUserDto> getAllusers(){
+//        return userRepo.findAll().stream()
+//                .map(this::toDto)
+//                .collect(Collectors.toList());
+//    }
+//
+//    private SiteUserDto toDto(User user){
+//        return SiteUserDto.builder()
+//                .username(user.getName())
+//                .email(user.getEmail())
+//                .build();
+//    }
+
+    public List<User> getAllUsersForAdmin(){
+        return userRepo.findAllByRoleNot(UserRole.ADMIN);
     }
 
 }

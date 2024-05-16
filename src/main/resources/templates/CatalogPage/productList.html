@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -51,22 +51,45 @@
 
     <div class="products ver2 grid_full hover-shadow">
 
-<!--         {% for i in products %}-->
-         <div class="item-inner" th:each="i : ${products}">
-              <div class="product">
-                  <div class="product-images">
-                            <p th:if = "${not i.isAvailable}" id="no_av_label">No available</p>
-                            <a th:href="'Catalog/detail' + ${i.pk}" title="productEnt-images">
-                                <img th:src="${i.imgUrl} ?: 'https://loremflickr.com/250/250/abstract,pastel/all?random='+${i.pk}" alt=""
-                                     th:class="${i.isAvailable} ? 'primary_image' : 'img_no_av'"/>
-                            </a>
-                  </div>
-                        <a th:href="'/Catalog/detail' + ${i.pk}"><p class="product_title" th:text="${i.name}"></p></a>
-                        <hr id="line">
-                        <p class="product_price" th:text="${i.price} + ' $$$'"></p>
+<!--         <div class="item-inner" th:each="i : ${products}">-->
+<!--              <div class="product">-->
+<!--                  <div class="product-images">-->
+<!--&lt;!&ndash;                            <p th:if = "${not i.isAvailable}" id="no_av_label">No available</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <a th:href="'Catalog/detail' + ${i.pk}" title="productEnt-images">&ndash;&gt;-->
+<!--                                <img th:src="${i.imgUrl} ?: 'https://loremflickr.com/250/250/abstract,pastel/all?random='+${i.pk}" alt=""-->
+<!--                                     th:class="${i.isAvailable} ? 'primary_image' : 'img_no_av'"/>-->
+<!--&lt;!&ndash;                            </a>&ndash;&gt;-->
+<!--                  </div>-->
+<!--                        <a th:href="'/Catalog/detail' + ${i.pk}"><p class="product_title" th:text="${i.name}"></p></a>-->
+<!--&lt;!&ndash;                        <hr id="line">&ndash;&gt;-->
+<!--                        <p class="product_price" th:text="${i.price} + ' $$$'"></p>-->
 
-              </div>
+<!--              </div>-->
                     <!-- End productEnt -->
+
+        <div class="grid-row" >
+            <div class="product1" th:each="i : ${products}">
+                <div class="product--card">
+                    <a class="product--image" th:href="'Catalog/detail' + ${i.pk}" title="View">
+                        <p th:if = "${not i.isAvailable}" id="no_av_label">No available</p>
+                        <!--                    <a th:href="'Catalog/detail' + ${i.pk}" title="productEnt-images">-->
+<!--                        <img class="img-responsive" th:src="${i.imgUrl} ?: 'https://loremflickr.com/250/250/abstract,pastel/all?random='+${i.pk}" >-->
+                        <!--                    </a>-->
+                        <img class="img-responsive" th:src="'/' + ${i.imgUrl}" >
+                    </a>
+                    <hr id="line">
+                    <a class="product_title" th:href="'/Catalog/detail' + ${i.pk}" title="View" th:text="${i.name}"></a>
+                    <p class="product_price" title="View" th:text="${i.price} + ' $$$'">
+                        <!--                    <span class="product&#45;&#45;price-inner">-->
+                        <!--                        <div class="price&#45;&#45;rrp">Don't pay $27.21</div>-->
+                        <!--                        <div class="price&#45;&#45;sell-price">$13.99</div>-->
+                        <!--                    </span>-->
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
          </div>
 <!--                {% endfor %}-->
     </div>
@@ -82,7 +105,20 @@
     </div>
     </div>
 
-    <a class="link-v1 color-brand add-new" href="/Catalog/add" title="add_new">Add new</a>
+
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <a class="link-v1 color-brand add-new" href="/Catalog/add" title="add_new">Add new</a>
+    </div>
+
+<!--    <div class="grid">-->
+<!--        <div class="product1" th:each="i : ${products}">-->
+<!--            <img th:src="${i.imgUrl} ?: 'https://loremflickr.com/250/250/abstract,pastel/all?random='+${i.pk}" />-->
+<!--            <h6 th:href="'Catalog/detail' + ${i.pk}" th:text="${i.name}"></h6>-->
+<!--            <p th:text="${i.price} + ' $$$'"></p>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
 
 </body>
 </html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" th:href="@{/CatalogPage/bucket.css}" type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,500,700,300' rel='stylesheet' type='text/css'>
+    <!--    <title>{% block title %}Catalog{% endblock %}</title>-->
+    <title>Catalog</title>
+</head>
+<body>
+<header th:insert="pattern :: header"></header>
+
+<div class="container">
+
+    <div id="sidebar" class="cat_menu">
+<!--        <h1 id="catalog_header" th:text="${catlabel} ?: 'Products'"></h1>-->
+        <h1 id="catalog_header">Bucket</h1>
+    </div>
+
+
+    <div class="products ver2 grid_full hover-shadow" th:if="${bucket.sum > 0}">
+
+        <div class="container container-ver2">
+            <div class="box cart-container">
+                <table class="table cart-table space-80">
+                    <thead>
+                    <tr id="tab_header">
+                        <th class="product-photo">Product Name</th>
+                        <th class="produc-name"></th>
+                        <th class="produc-price">Price</th>
+                        <th class="product-quantity">qty</th>
+                        <th class="total-price">Total</th>
+                        <th class="product-remove"></th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="b : ${bucket.bucketDetails}">
+                    <tr class="item_cart">
+                        <td class="product-photo"><img th:src ="@{${b.imgUrl}} ?: 'Blog/img/no_img.png'" alt="" class="img_prod"></td>
+                        <td class="produc-name" th:text="${b.title}"><a href="#"></a></td>
+<!--                        <td class="produc-price"><input value="$69.90" size="4" type="text"></td>-->
+                        <td class="produc-price"><input th:value="${b.price}"  type="text"></td>
+                        <td class="product-quantity">
+                            <div class="quantity">
+<!--                                <span class="minus" onclick="decrease()"></span>-->
+                                <input data-step="1" th:value="${b.amount}" title="Qty" class="qty" size="4" type="number">
+<!--                                <span class="plus" onclick="increase()"></span>-->
+                            </div>
+<!--                            <form enctype="multipart/form-data">-->
+<!--                                <div class="product-signle-options product_15 clearfix">-->
+<!--                                    <div class="selector-wrapper size">-->
+<!--                                        -->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </form>-->
+                        </td>
+                        <td class="total-price" th:text="${b.sum}"></td>
+                        <td class="product-remove"><a class="remove" href="#" title="close"><img class="delete_icon"></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+<!--                <div class="box space-30">-->
+<!--                    <div class="float-left">-->
+<!--                        <a class="link-v1 lh-50 margin-right-20 space-20" href="#" title="CLEAR SHOPPING CART">CLEAR SHOPPING CART</a>-->
+<!--                        <a class="link-v1 lh-50 space-20" href="#" title="UPDATE SHOPPING CART">UPDATE SHOPPING CART</a>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; End float left &ndash;&gt;-->
+<!--                    <div class="float-right">-->
+<!--                        <a class="link-v1 lh-50" href="#" title="CONTINUS SHOPPING">CONTINUS SHOPPING</a>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; End float-right &ndash;&gt;-->
+<!--                </div>-->
+                <!-- End box -->
+                <div class="box cart-total space-30">
+                    <div class="row">
+<!--                        <div class="col-md-4 space-30">-->
+<!--                            <div class="item coupon-code">-->
+<!--                                <h3 class="title">COUPON CODE</h3>-->
+<!--                                <p>Enter your coupon code if you have one</p>-->
+<!--                                <form enctype="multipart/form-data">-->
+<!--                                    <div class="form-group">-->
+<!--                                        <input type="text" class="form-control space-20" id="coundpon">-->
+<!--                                    </div>-->
+<!--                                </form>-->
+<!--                                <a class="link-v1 lh-50 rt" href="#" title="apply coupon">APPLY COUPON*</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-4 space-30">-->
+<!--                            <div class="item">-->
+<!--                                <h3 class="title">ESTIMEDE SHIPPING AND TAX</h3>-->
+<!--                                <p>Enter your destinetion to get a shipping estimede </p>-->
+<!--                                <form enctype="multipart/form-data">-->
+<!--                                    <div class="form-group">-->
+<!--                                        <label class=" control-label" for="inputcountry">Country *</label>-->
+<!--                                        <input type="text" class="form-control space-20" id="inputcountry">-->
+<!--                                    </div>-->
+<!--                                    <div class="form-group">-->
+<!--                                        <label class=" control-label" for="state">STATE/PROVINCE *</label>-->
+<!--                                        <input type="text" class="form-control space-20" id="state">-->
+<!--                                    </div>-->
+<!--                                    <div class="form-group">-->
+<!--                                        <label class=" control-label" for="zip-code">ZIP/POSTAL CODE *</label>-->
+<!--                                        <input type="text" class="form-control space-20" id="zip-code">-->
+<!--                                    </div>-->
+<!--                                </form>-->
+<!--                                <a class="link-v1 lh-50 rt" href="#" title="ESTIMADE">ESTIMADE</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <!-- End col-md-4 -->
+                        <div class="col-md-4 space-30">
+                            <div class="item">
+                                <h3 class="title">CART TOTAL</h3>
+                                <p class="box"><span class="float-left">ORDER SUM</span><span class="float-right subtotal" th:text="${bucket.sum}"></span></p>
+                                <p class="box"><span class="float-left">SHIPPING</span><span class="float-right shipping" th:text="${bucket.shipping}"></span></p>
+                                <p class="box"><span class="float-left total_sum">TOTAL SUM</span><span class="float-right total_sum" th:text="${bucket.sum} + ${bucket.shipping}"></span></p>
+<!--                                <p class="box space-30"><span class="float-left">SUBTOTAL</span><span class="float-right">$5,200.00</span></p>-->
+                                <a class="link-v1 lh-50 rt" href="#" title="POCEEED TO CHECKOUT">CREATE ORDER</a>
+                            </div>
+                        </div>
+                        <!-- End col-md-4 -->
+                    </div>
+                </div>
+                <!-- End box -->
+            </div>
+            <!-- End container -->
+        </div>
+
+        <!--         {% for i in products %}-->
+<!--        <div class="item-inner" th:each="i : ${products}">-->
+<!--            <div class="product">-->
+<!--                <div class="product-images">-->
+<!--                    <p th:if = "${not i.isAvailable}" id="no_av_label">No available</p>-->
+<!--                    <a th:href="'Catalog/detail' + ${i.pk}" title="productEnt-images">-->
+<!--                        <img th:src="${i.imgUrl} ?: 'https://loremflickr.com/250/250/abstract,pastel/all?random='+${i.pk}" alt=""-->
+<!--                             th:class="${i.isAvailable} ? 'primary_image' : 'img_no_av'"/>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <a th:href="'/Catalog/detail' + ${i.pk}"><p class="product_title" th:text="${i.name}"></p></a>-->
+<!--                <hr id="line">-->
+<!--                <p class="product_price" th:text="${i.price} + ' $$$'"></p>-->
+
+<!--            </div>-->
+<!--            &lt;!&ndash; End productEnt &ndash;&gt;-->
+<!--        </div>-->
+        <!--                {% endfor %}-->
+    </div>
+
+    <div class="empty_bucket" th:if="${bucket.sum < 0}">
+            <div class="line"></div>
+            <h2 class="empty_bucket_text">Bucket is empty <br> go to <a href="/Catalog">catalog</a></h2>
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/bucket.js" type="text/javascript"></script>
+</body>
+</html>

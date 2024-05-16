@@ -3,7 +3,7 @@
 <!--<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>-->
 
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -20,16 +20,14 @@
     <header th:insert="pattern :: header"></header>
     <!-- End banner -->
     <div class="container container-ver2">
-        <div class="page-login box space-50">
+        <div class="page-login box space-50" sec:authorize="!isAuthenticated()">
             <div class="row">
-                <div class="col-md-6 sign-in space-30">
+                <div class="col-md-6 sign-in space-30" >
                     <h3>sign in</h3>
                     <p>Hello, welcome to your account.</p>
 
                     <div th:if="${param.logout}">
                         You have been logged out.</div>
-<!--                    <div th:text="${isAuth} ?: ' ' "></div>-->
-
 <!--                    <form class="form-horizontal" method="POST" th:action="@{/Account}" modelAttribute="userData" >-->
                     <form class="form-horizontal" method="POST" th:action="@{/Account}" >
 <!--                    <form class="form-horizontal" method="POST" action="/login">   -->
@@ -89,6 +87,25 @@
                 <!-- End col-md-6 -->
             </div>
         </div>
+        <div class="page-login box space-50" sec:authorize="isAuthenticated()">
+            <div class="row">
+                <div class="col-md-6 sign-in space-30" >
+                    <span sec:authentication="principal.username"></span>
+                    <div>
+                        <div>You're already authenticated!</div>
+                        <a th:href="@{/logout}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        <div class="page-login box space-50" sec:authorize="hasAuthority('ADMIN')">-->
+<!--            <div class="row">-->
+<!--                <div class="col-md-6 sign-in space-30" >-->
+<!--                    <div sec:authentication="name"></div>-->
+<!--                    <div sec:authentication="principal.authorities"></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
                 <!-- End col-md-6 -->
 <!--                <div class="col-md-6">-->
