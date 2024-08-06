@@ -7,7 +7,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link th:href="@{LoginPage/login_page.css}" rel="stylesheet" />
+    <link th:href="@{/LoginPage/login_page.css}" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <!--        <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>-->
     <!--        <link rel="stylesheet" type="text/css" href="assets/vendor/owl-slider.css"/>-->
@@ -21,43 +21,191 @@
     <header th:insert="pattern :: header"></header>
     <!-- End banner -->
     <div class="container container-ver2">
+
+
+
         <div class="page-login box space-50" sec:authorize="hasAuthority('ADMIN')">
             <div class="row">
                 <div class="col-md-6 sign-in space-30" >
-                    <div sec:authentication="name"></div>
+<!--                    <div sec:authentication="name"></div>-->
                     <div sec:authentication="principal.authorities"></div>
                 </div>
             </div>
+            <div class="my-acc-container">
+                <div class="my-acc-sidebar">
+                    <ul class="menu_items">
+                        <li class="menu_it" th:class="${selectedSection} ? '' : 'selected'">
+                            <a href="/Account" class="menu_it">Edit personal data</a>
+                        </li>
+                        <li class="menu_it" th:class = "${selectedSection == 'myOrders'} ? 'selected' : ''">
+                            <a href="/Account/myOrders" class="menu_it">My orders</a>
+                        </li>
+                        <li class="menu_it"  th:class = "${selectedSection == 'myPosts'} ? 'selected' : ''">
+                            <a href="/Account/myPosts" class="menu_it">My publications</a>
+                        </li>
+                        <li><a th:href="@{/logout}" class="logout_button">Logout</a></li>
+                    </ul>
+                </div>
 
-            <table class="table cart-table space-80">
-                <thead>
-                <tr id="tab_header">
-                    <th class="username">Username</th>
-                    <th class="user-role">Role</th>
-<!--                    <th class="last-active">Last active</th>-->
-                    <th class="bucket-state">Bucket state</th>
-                    <th class="block-state">Block state</th>
-                </tr>
-                </thead>
-                <tbody th:each="u : ${usersList}">
-                <tr class="item_cart">
-                    <td class="username" th:text="${u.name}"></td>
-                    <td class="user-role" th:text="${u.role}"><a href="#"></a></td>
-<!--                    <td class="last-active" th:text="${b.sum}"></td>-->
-<!--                    <td class="bucket-state" th:text="${u.bucket} == null ? 'empty' : ${u.bucket.bucketId}"></td>-->
-                    <td class="block-state" th:text="${u.archive} ? 'blocked' : 'active'"></td>
-                </tr>
-                </tbody>
-            </table>
+
+                <div class="my-acc-content">
+                    <div th:if="${#strings.isEmpty(selectedSection)}" class="profile-form">
+                        <table class="table cart-table space-80">
+                            <thead>
+                            <tr id="tab_header">
+                                <th class="username">Username</th>
+                                <th class="user-role">Role</th>
+                                <th class="user-email">Email</th>
+                                <!--                    <th class="last-active">Last active</th>-->
+                                <th class="bucket-state">Bucket state</th>
+                                <th class="activation-state">Activated</th>
+                                <th class="actions">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody th:each="u : ${usersList}">
+                            <tr class="item_cart">
+                                <td class="username" th:text="${u.name}"></td>
+                                <td class="user-role" th:text="${u.role}"></td>
+                                <td class="user-email" th:text="${u.email}"></td>
+                                <!--                    <td class="last-active" th:text="${b.sum}"></td>-->
+                                <td class="bucket-state" th:text="${u.bucket} ? ${u.bucket.bucketId} : 'empty'"><a href="#"></a></td>
+                                <td class="activation-state" th:text="${u.activated}"></td>
+                                <td class="actions" th:data-user-id="${u.userId}">
+                                    <span class="action-icon delete-icon"
+                                          th:data-user-id="${u.userId}">&#x2715;</span>
+                                    <span class="action-icon edit-icon btn-primary"
+                                          th:data-user-id="${u.userId}">&#x270E;</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
+        <div class="page-login box space-50" sec:authorize="hasAuthority('CLIENT')">
+            <div class="my-acc-container">
+                <div class="my-acc-sidebar">
+                    <ul class="menu_items">
+                        <li class="menu_it" th:class="${selectedSection} ? '' : 'selected'">
+                            <a href="/Account" class="menu_it">Edit personal data</a>
+                        </li>
+                        <li class="menu_it" th:class = "${selectedSection == 'myOrders'} ? 'selected' : ''">
+                            <a href="/Account/myOrders" class="menu_it">My orders</a>
+                        </li>
+                        <li class="menu_it"  th:class = "${selectedSection == 'myPosts'} ? 'selected' : ''">
+                            <a href="/Account/myPosts" class="menu_it">My publications</a>
+                        </li>
+                        <li><a th:href="@{/logout}" class="logout_button">Logout</a></li>
+                    </ul>
+                </div>
+                <div class="my-acc-content">
+                    <div class="profile-form" th:if="${#strings.isEmpty(selectedSection)}">
+                        <form class="form-horizontal" method="POST" th:action="@{/Account/edit}"
+                              modelAttribute="hyeta" th:object="${hyeta}" enctype="multipart/form-data">
+                            <div class="profile-header">
+                                <div class="profile-image">
+                                    <img alt="Фото профиля" id="preview"
+                                         th:src="${imgId} ? '/profileImages/' + ${imgId} : 'https://via.placeholder.com/150'">
+                                    <input id="profileImage"
+                                           accept="image/*"
+                                           type="file"
+                                           name="profileImage"
+                                           oninput="previewImage(this.files[0])">
+                                    <span class="close-icon" onclick="removeImage()"
+                                          th:style="${imgId} ? 'display: block' : 'display: none'"
+                                          id="close-span">&#x2715;</span>
+                                    <script>
+                                        function previewImage(file) {
+                                          const reader = new FileReader();
+                                          reader.onload = () => document.getElementById('preview').src = reader.result;
+                                          reader.readAsDataURL(file);
+                                          document.querySelector('.close-icon').style.display = 'block';
+                                          document.querySelector('.close-icon').classList.add('show');
+                                        }
 
+                                        function removeImage() {
+                                        document.getElementById('preview').src = "https://via.placeholder.com/150";
+                                        document.querySelector('.close-icon').style.display = 'none';
+                                        document.querySelector('.close-icon').classList.remove('show');
+                                        }
+                                    </script>
+                                </div>
 
+                                <div class="profile-info">
+                                    <div>
+                                        <label for="name" class="control-label">USERNAME</label>
+                                        <input class="form-control" name="name" type="text" id="name"
+                                               th:value="${user.name}">
+                                        <!--                                th:field="*{fio}"-->
+                                    </div>
+                                    <div>
+                                        <label for="fio" class="control-label">FIO</label>
+                                        <input class="form-control" placeholder="FIO"  type="text" id="fio"
+                                               th:field="*{fio}" name="fio">
+                                        <!--                                th:field="*{fio}"-->
+                                    </div>
+                                    <div>
+                                        <label for="dateBirthS" class="control-label">DATE BIRTH</label>
+                                        <input class="form-control" type="date" id="dateBirthS" name="dateBirthS"
+                                               th:value="${dateBirthS}">
+                                        <!--                                th:field="*{dateBirth}"-->
+                                    </div>
+                                </div>
+                            </div>
+                            <h2 class="my-acc-h2">Contacts</h2>
 
+                            <div class="group box space-20">
+                                <label for="phone" class="control-label">PHONE NUMBER:</label>
+                                <input class="form-control" type="text" id="phone" name="phone" placeholder="+7 (XXX) XXX-XX-XX"
+                                       th:field="*{phone}" >
+<!--                                th:field="*{phone}"-->
+                            </div>
+                            <div class="group box space-20">
+                                <label for="email" class="control-label">EMAIL:</label>
+                                <input class="form-control" type="email" id="email" name="email" placeholder="example@example.com"
+                                       th:value="${user.email}">
+<!--                                th:field="*{email}"-->
+                            </div>
+                            <div class="group box space-20">
+                                <label for="city" class="control-label">CITY:</label>
+                                <input class="form-control" type="text" id="city" name="city" placeholder="Город"
+                                       th:field="*{city}">
+                            </div>
+
+                            <button type="submit" class="link-v1 color-brand">SAVE</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Заголовок модального окна</h5>
+                        <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                    </div>
+<!--                    <div th:insert="~{pattern :: profileForm}"></div>-->
+<!--                    КАК ДОБАВИТЬ ЭТОТ КУСОК В JS ДИНАМИЧЕСКИ ПРИ НАЖАТИИ КНОПКИ-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-close" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+<script src="/js/adminTable.js" type="text/javascript"></script>
 </body>
 
 </html>

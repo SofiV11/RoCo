@@ -13,5 +13,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
     User findFirstByName(String name);
     User findByNameAndPassword(String name, String password);
 
+
+    User findFirstByUserId(Long userId);
+
     List<User> findAllByRoleNot(UserRole roleException);
 }

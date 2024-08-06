@@ -98,6 +98,10 @@
                 </div>
             </div>
         </div>
+
+        <div th:if="${activationMessage}"><div th:text="${activationMessage}"></div></div>
+<!--        <button th:onclick="'javascript:doSomething(\'' + ${url} + '\');'">Click Me</button>-->
+<!--        <a th:href="@{/ping}">Ping mail</a>-->
 <!--        <div class="page-login box space-50" sec:authorize="hasAuthority('ADMIN')">-->
 <!--            <div class="row">-->
 <!--                <div class="col-md-6 sign-in space-30" >-->

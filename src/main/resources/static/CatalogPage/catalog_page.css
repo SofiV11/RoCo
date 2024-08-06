@@ -688,7 +688,6 @@ p { margin: 0; font-weight: bold; font-size: 0.85em; }*/
 .grid-row {
   display: flex;
   flex-wrap: wrap;
-  width: 1200px;
   margin: 0 auto;
   padding-top: 30px;
 }

@@ -10,9 +10,13 @@ import java.net.URL;
 
 public class AParser {
     public static Document getPageA() throws IOException {
-        String link = "https://www.anekdot.ru/id/" + (1 + (int)(Math.random() * 1010000)) + "/"; //1072178/;
-        Document page = Jsoup.parse(new URL(link), 3000);
-        return page;
+        try {
+            String link = "https://www.anekdot.ru/id/" + (1 + (int) (Math.random() * 1010000)) + "/"; //1072178/;
+            Document page = Jsoup.parse(new URL(link), 3000);
+            return page;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static String getAnekBody(Document page) throws IOException {

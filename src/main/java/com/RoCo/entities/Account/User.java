@@ -2,10 +2,12 @@ package com.RoCo.entities.Account;
 
 
 import com.RoCo.entities.CatalogEnt.BucketEnt;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.annotation.Nullable;
 //org.jetbrains.annotations.Nullable;
@@ -14,6 +16,8 @@ import javax.annotation.Nullable;
 @AllArgsConstructor
 //@NoArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "users")
 public class User {
     private static final String SEQ_NAME = "user_seq";
@@ -31,14 +35,20 @@ public class User {
     private String email;
 
     @Nullable
-    private boolean archive;
+    private Boolean activated;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @Nullable
+    @JsonManagedReference
     private BucketEnt bucket;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @Nullable
+    @JsonManagedReference
+    private UserDetailsEnt userDetails;
 
     public User() {
     }
@@ -49,6 +59,15 @@ public class User {
         this.email = email;
         this.role = role;
     }
+
+    public User(String name, String password, String email, UserRole role, Boolean activated) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.activated = activated;
+    }
+
 
     public Long getUserId() {
         return userId;
@@ -66,8 +85,8 @@ public class User {
         return email;
     }
 
-    public boolean isArchive() {
-        return archive;
+    public boolean getActivated() {
+        return activated;
     }
 
     public UserRole getRole() {
@@ -94,8 +113,8 @@ public class User {
         this.email = email;
     }
 
-    public void setArchive(boolean archive) {
-        this.archive = archive;
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     public void setRole(UserRole role) {
@@ -104,5 +123,14 @@ public class User {
 
     public void setBucket(@Nullable BucketEnt bucket) {
         this.bucket = bucket;
+    }
+
+    public void setUserDetails(@Nullable UserDetailsEnt userDetails) {
+        this.userDetails = userDetails;
+    }
+
+    @Nullable
+    public UserDetailsEnt getUserDetails() {
+        return userDetails;
     }
 }

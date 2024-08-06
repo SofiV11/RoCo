@@ -2,6 +2,7 @@ package com.RoCo.entities.CatalogEnt;
 
 //import com.RoCo.entities.Account.SiteUser;
 import com.RoCo.entities.Account.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class BucketEnt {
 
     @OneToOne
     @JoinColumn(name="user_id")
+    @JsonBackReference
     //private SiteUser user;
     private User user;
 

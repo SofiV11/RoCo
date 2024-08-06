@@ -4,10 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 
-//////////
-////2////
-/////////
-
 
 @Entity //JPA
 @Data
@@ -28,6 +24,20 @@ public class ProductEnt {
     private String imgUrl;
     private Boolean isAvailable;
     private String descr;
+
+//    @Nullable
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
+//    private List<ProductImagesEnt> productImage;
+//
+//    private Long previewImageId;
+
+//    @Transient
+//    private LocalDateTime dateOfCreated;
+//
+//    @PrePersist
+//    private void init(){
+//        this.dateOfCreated = LocalDateTime.now();
+//    }
 
     public ProductEnt() {
     }

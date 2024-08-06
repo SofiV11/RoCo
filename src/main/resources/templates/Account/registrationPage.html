@@ -40,6 +40,8 @@
                 <input class="form-control" name="email" type="email" th:field="*{email}"></input>
             </div>
 
+            <div class="errorText" th:text="${errorText} ?: ''"></div>
+
             <button class="link-v1 color-brand" title="Add" type="submit">Next Step</button>
         </form>
     </div>

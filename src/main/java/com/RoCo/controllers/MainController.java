@@ -31,10 +31,11 @@ public class MainController {
         String anekText;
         try{
             Document webPage = AParser.getPageA();
-            anekText = AParser.getAnekBody(webPage);
-        }catch (IOException e) {
-            anekText = "anek nit found";
-            throw new RuntimeException(e);
+            if (webPage != null) anekText = AParser.getAnekBody(webPage);
+            else anekText = "";
+        } catch (IOException e) {
+            anekText = "data not found";
+            //throw new RuntimeException(e);
         }
         model.addAttribute("anek", anekText);
         return "MainPage/mainPage.html"; // вызов шаблона

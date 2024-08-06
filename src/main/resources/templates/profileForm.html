@@ -1,0 +1,84 @@
+<div class="profile-form" th:fragment="profileForm">
+    <form class="form-horizontal" method="POST" action="/Account/A_edit"
+          modelAttribute="userDetails" th:object="${userDetails}" enctype="multipart/form-data">
+        <div class="profile-header">
+            <div class="profile-image">
+
+                <img alt="Фото профиля" id="preview"
+                     th:src="${imgId} ? '/profileImages/' + ${imgId} : 'https://via.placeholder.com/150'">
+                <input id="profileImage"
+                       accept="image/*"
+                       type="file"
+                       name="profileImage"
+                       oninput="previewImage(this.files[0])">
+                <span class="close-icon" onclick="removeImage()"
+                      th:style="${imgId} ? 'display: block' : 'display: none'"
+                      id="close-span">&#x2715;</span>
+                <script>
+                    function previewImage(file) {
+                      const reader = new FileReader();
+                      reader.onload = () => document.getElementById('preview').src = reader.result;
+                      reader.readAsDataURL(file);
+                      document.querySelector('.close-icon').style.display = 'block';
+                      document.querySelector('.close-icon').classList.add('show');
+                    }
+
+                    function removeImage() {
+                    document.getElementById('preview').src = "https://via.placeholder.com/150";
+                    document.querySelector('.close-icon').style.display = 'none';
+                    document.querySelector('.close-icon').classList.remove('show');
+                    }
+                </script>
+            </div>
+
+            <div class="profile-info">
+                <div>
+                    <label for="name" class="control-label">USERNAME</label>
+                    <input class="form-control" name="name" type="text" id="name"
+                           th:value="${user.name}">
+                    <!--                                th:field="*{fio}"-->
+                </div>
+                <div>
+                    <label for="fio" class="control-label">FIO</label>
+                    <input class="form-control" placeholder="FIO"  type="text" id="fio"
+                           th:value="${userDetails?.fio}" name="fio">
+                    <!--                                th:field="*{fio}"-->
+                </div>
+                <div>
+                    <label for="dateBirthS" class="control-label">DATE BIRTH</label>
+                    <input class="form-control" type="date" id="dateBirthS" name="dateBirthS"
+                           th:value="${dateBirthS}">
+                    <!--                                th:field="*{dateBirth}"-->
+                </div>
+<!--            todo: check this
+                <input type="text" class="form-control getdate"
+                       th:field="*{datefrom}" placeholder="Date From"
+                       th:value="${#dates.format(bookingEntry.datefrom, 'dd-MMM-yyyy')}"/>-->
+            </div>
+        </div>
+        <h2 class="my-acc-h2">Contacts</h2>
+
+        <div class="group box space-20">
+            <label for="phone" class="control-label">PHONE NUMBER:</label>
+            <input class="form-control" type="text" id="phone" name="phone" placeholder="+7 (XXX) XXX-XX-XX"
+                   th:value="${userDetails?.phone}" >
+            <!--                                th:field="*{phone}"-->
+        </div>
+        <div class="group box space-20">
+            <label for="email" class="control-label">EMAIL:</label>
+            <input class="form-control" type="email" id="email" name="email" placeholder="example@example.com"
+                   th:value="${user.email}">
+            <!--                                th:field="*{email}"-->
+        </div>
+        <div class="group box space-20">
+            <label for="city" class="control-label">CITY:</label>
+            <input class="form-control" type="text" id="city" name="city" placeholder="City"
+                   th:value="${userDetails?.city}">
+        </div>
+        <input th:value="${user.userId}" name="userId" id="userId" style="display: none;">
+        <div class="modal-footer">
+            <button type="submit" class="link-v1 color-brand">SAVE</button>
+            <button type="button" class="link-v1 color-brand btn-close" data-bs-dismiss="modal">CLOSE</button>
+        </div>
+    </form>
+</div>

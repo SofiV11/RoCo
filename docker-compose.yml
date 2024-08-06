@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  postrges:
+  postgres_roco:
     image: 'postgres:15-alpine'
-    container_name: 'postgres'
+#    container_name: 'postgres_roco'
     restart: always
     environment:
       - 'POSTGRES_USER=root'
@@ -13,30 +13,50 @@ services:
 #    expose:
 #      - 5432
     ports:
-      - '5432:5432'
+      - ":5432"
+#      - '127.0.0.1:5432:5432'
+#      - '5432:5432'
     volumes:
-      - pgdata:/var/lib/postgresql/data/
+      - pgdata_roco:/var/lib/postgresql/data/
+      - ./postgres/database/:/docker-entrypoint-initdb.d
+#      - ./data:/var/lib/postgresql/data
+#      - E:/DB:/var/lib/postgresql/data/
+#      - pgdata_roco:/var/lib/postgresql/data/
 #    networks:
 #      - ps
 
-
   app:
-    build: ./
-    container_name: 'java-app'
+    restart: always
+    build: .
+    container_name: 'java-app-roco'
     ports:
       - '8080:8080'
-    links:
-      - 'postrges'
+#    links:
+#      - postgres_roco
     depends_on:
-      - postrges
+      - postgres_roco
     volumes:
-      - app_data:/var/www/html
+      - app_data_roco:/var/www/html
+    environment:
+      - SPRING_DATASOURCE_URL = jdbc:postgresql://postgres_roco:5432/DB
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 #    networks:
 #      - ps
 
 volumes:
-  pgdata:
-    external: true
-  app_data:
+  pgdata_roco:
+#    driver: local
+#    driver_opts:
+#      o: bind
+#      device: E:/DB
+#    external: true
+  app_data_roco:
+#    driver: local
+#    driver_opts:
+#      o: bind
+#      device: E:\Java\AppData
 #networks:
 #  ps:
+
