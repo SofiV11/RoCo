@@ -4,6 +4,7 @@ import com.RoCo.entities.CatalogEnt.ProductCatEnt;
 import com.RoCo.entities.CatalogEnt.ProductEnt;
 import com.RoCo.models.Product;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ import java.util.List;
 public interface ProductServ {
     Product getProductById(Long id);
     List<Product> getAllProducts();
+    Page<Product> findPaginated(int pageNo, int pageSize);
+    List<Product> getAllProductsPageable(Pageable pageable);
     List<Product> findByCategory(Long category);
     void addProduct(Product product);
     void editProduct(Product product);

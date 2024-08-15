@@ -2,6 +2,7 @@ package com.RoCo.controllers;
 
 
 import com.RoCo.entities.CatalogEnt.ProductCatEnt;
+import com.RoCo.entities.CatalogEnt.ProductEnt;
 import com.RoCo.entities.NewsEnt.PostRec;
 import com.RoCo.mappers.ProductToDtoMapper;
 import com.RoCo.models.BucketDto;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +50,10 @@ public class CatalogController {
 //    }
     @Value("${upload.path}") // получение значения для переменной
     private String uploadPath;
-
+    @GetMapping("/Catalog")
+    public String CatalogPage(Model model){
+        return "redirect:Catalog/page/1";
+    }
 
     @GetMapping("/Catalog/detail{id}")
     public String ProductDetail(@PathVariable Long id, Model model){
@@ -56,12 +61,26 @@ public class CatalogController {
         model.addAttribute("product", product);
         return "CatalogPage/productDetail.html";
     }
-    @GetMapping("/Catalog")
-    public String CatalogPAge(Model model){
-        List<Product> products= productServ.getAllProducts();
-        List<ProductCatEnt> categories= productServ.getAllCategories(); //List<String> getAllCategories()
-        model.addAttribute("products", products);
+    @GetMapping("/Catalog/page/{pageNo}")
+    public String CatalogPAge(Model model,
+                              @PathVariable(value = "pageNo") Integer pageNo
+                              //@PageableDefault(sort = {"pk"}, direction = Direction.DESC) Pageable pageable
+                              ){
+        if(pageNo == null){
+            List<Product> products= productServ.getAllProducts();
+            model.addAttribute("products", products);
+        } else {
+            int pageSize = 8;
+            Page<Product> pageProducts= productServ.findPaginated(pageNo, pageSize);
+            List<Product> productList = pageProducts.getContent();
+            model.addAttribute("totalItems", pageProducts.getTotalElements());
+            model.addAttribute("products", productList);
+            model.addAttribute("totalPages", pageProducts.getTotalPages());
+        }
+        List<ProductCatEnt> categories = productServ.getAllCategories(); //List<String> getAllCategories()
         model.addAttribute("categories", categories);
+        model.addAttribute("currentPage", pageNo);
+
         model.addAttribute("catlabel", null);
         return "CatalogPage/productList.html";
     }

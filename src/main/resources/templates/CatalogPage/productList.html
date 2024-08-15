@@ -16,7 +16,14 @@
     <div id="sidebar" class="cat_menu">
 
 <!--        <h1 id="catalog_header">{% if cat %}{{ cat.name }}{% else %}Products{% endif %}</h1>-->
-        <h1 id="catalog_header" th:text="${catlabel} ?: 'Products'"></h1>
+        <div class="horizontal-layout">
+            <h1 id="catalog_header" th:text="${catlabel} ?: 'Products'"></h1>
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <a class="link-v1 color-brand add-new" href="/Catalog/add">Add new</a>
+            </div>
+        </div>
+
+
 
 <!--        <h3>Categories</h3>-->
         <ul class="cat_list">
@@ -94,21 +101,35 @@
 <!--                {% endfor %}-->
     </div>
             
-    <div class="pagination-container">
-          <nav class="pagination align-right">
-             <a class="prev page-numbers" href="#"><i class="fa fa-angle-left"></i></a>
-             <span class="page-numbers current">1</span>
-             <a class="page-numbers" href="#">2</a>
-             <a class="page-numbers" href="#">3</a>
-             <a class="next page-numbers" href="#"><i class="fa fa-angle-right"></i></a>
-          </nav>
-    </div>
+        <div class="pagination-container" th:if="${totalPages > 1}">
+              <nav class="pagination align-right">
+<!--                 <a class="prev page-numbers" href="#"><i class="fa fa-angle-left"></i></a>-->
+                 <span class="page-numbers" th:each="i: ${#numbers.sequence(1, totalPages)}">
+                     <a th:if="${currentPage != i}" th:href="@{'/Catalog/page/' + ${i}}" class="page-numbers" >[[${i}]]</a>
+                     <span th:unless="${currentPage != i}" class="page-numbers current">[[${i}]]</span>
+                 </span>
+                 <a th:if="${currentPage < totalPages}" th:href="@{'/Catalog/page/' + ${currentPage + 1}}" class="fa fa-angle-right">NEXT</a>
+<!--                 <span th:unless="${currentPage < totalPages}" class="page-numbers current">NEXT</span>-->
+                 <a th:if="${currentPage < totalPages}" th:href="@{'/Catalog/page/' + ${totalPages}}" class="page-numbers" >LAST</a>
+<!--                     <span th:unless="${currentPage > totalPages}" class="page-numbers current">LAST</span>-->
+
+
+    <!--              <div class = "col-sm-1">-->
+    <!--                  <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
+    <!--                  <span th:unless="${currentPage < totalPages}">Next</span>-->
+    <!--              </div>-->
+
+    <!--              <div class="col-sm-1">-->
+    <!--                  <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
+    <!--                  <span th:unless="${currentPage < totalPages}">Last</span>-->
+    <!--              </div>-->
+
+              </nav>
+        </div>
     </div>
 
 
-    <div sec:authorize="hasAuthority('ADMIN')">
-        <a class="link-v1 color-brand add-new" href="/Catalog/add" title="add_new">Add new</a>
-    </div>
+
 
 <!--    <div class="grid">-->
 <!--        <div class="product1" th:each="i : ${products}">-->

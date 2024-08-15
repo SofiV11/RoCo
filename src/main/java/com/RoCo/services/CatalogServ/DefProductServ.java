@@ -12,8 +12,7 @@ import com.RoCo.repositories.CatalogRepo.ProductCatRepo;
 import com.RoCo.repositories.CatalogRepo.ProductRepo;
 import com.RoCo.services.AccountServ.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -104,6 +103,29 @@ public class DefProductServ implements ProductServ{
     @Override
     public List<Product> getAllProducts(){
         Iterable<ProductEnt> iterable = productRepo.findAll(); // returns Iterable<>
+        ArrayList<Product> products = new ArrayList<>();
+        for(ProductEnt productEnt : iterable){
+            products.add(mapper.productEntToProduct(productEnt));
+        }
+        return products;
+    }
+
+    @Override
+    public Page<Product> findPaginated(int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo -1, pageSize);
+        Page<ProductEnt> paged = productRepo.findAll(pageable);
+
+        List<Product> productsList = paged.stream()
+                .map(mapper::productEntToProduct)
+                .toList();
+
+        Page<Product> products = new PageImpl<>(productsList, pageable, paged.getTotalElements());
+        return products;
+    }
+
+    @Override
+    public List<Product> getAllProductsPageable(Pageable pageable){
+        Page<ProductEnt> iterable = productRepo.findAll(pageable); // returns Iterable<>
         ArrayList<Product> products = new ArrayList<>();
         for(ProductEnt productEnt : iterable){
             products.add(mapper.productEntToProduct(productEnt));
