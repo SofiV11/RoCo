@@ -31,28 +31,50 @@
                     <a href="/Catalog" class="catlist_item">Все</a>
                     </li>
               <div th:each="c : ${categories}">
-<!--                     <li th:if ="${catlabel == c.label}" class="selected">-->
                      <li th:class="${catlabel == c.label} ? 'selected' : ''">
-<!--                     <li th:if="${catlabel} == ${c.label}" class="selected">-->
-                     <a th:href="'/Catalog/category' + ${c.id}" class="catlist_item" th:text="${c.label}"></a>
+                        <a th:href="'/Catalog/category' + ${c.id}" class="catlist_item" th:text="${c.label}"></a>
                      </li>
-<!--                  <li th:unless="${catlabel} != ${c.label}">-->
-<!--                      <a th:href="'/Catalog/category' + ${c.id}" class="catlist_item" th:text="${c.label}"></a>-->
-<!--                  </li>-->
               </div>
         </ul>
         <div class="ordering">
 
-                   <form action="#" method="get" class="order-by">
-                         <p>Sort by :</p>
-                            <select class="orderby" name="orderby">
-                                <option>popularity</option>
-                                <option selected="selected">average rating</option>
-                                <option>newness</option>
-                                <option>price: low to high</option>
-                                <option>price: high to low</option>
-                            </select>
-                   </form>
+<!--                   <form class="order-by">-->
+<!--                         <p>Sort by :</p>-->
+<!--                            <select class="orderby" name="orderby">-->
+<!--&lt;!&ndash;                                <option>popularity</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <option selected="selected">average rating</option>&ndash;&gt;-->
+
+<!--                                <option th:href="@{'/page/' + ${currentPage} + '&sortField=name&sortDir=asc'}">-->
+<!--                                    name-->
+<!--                                </option>-->
+<!--                                <div>-->
+<!--                                    <option th:href="@{'/page/' + ${currentPage} + '&sortField=name&sortDir=desc'}">-->
+<!--                                        name desc-->
+<!--                                    </option>-->
+<!--                                </div>-->
+
+<!--                                <option th:href="@{'/page/' + ${currentPage} + '&sortField=price&sortDir=asc'}">-->
+<!--                                    price: low to high-->
+<!--                                </option>-->
+<!--                                <option th:href="@{'/page/' + ${currentPage} + '&sortField=price&sortDir=desc'}">-->
+<!--                                    price: high to-->
+<!--                                </option>-->
+<!--                            </select>-->
+<!--                   </form>-->
+
+                <!--                                <option>popularity</option>-->
+                <!--                                <option selected="selected">average rating</option>-->
+
+            <div class="sort-block">
+                <a th:href="@{'/Catalog/page/' + ${currentPage} + '?sortField=name&sortDir=asc'}"
+                   th:class = "${sortField == 'name' && sortDir == 'asc'} ? 'selected-sort' : ''">&#9864; name</a>
+                <a th:href="@{'/Catalog/page/' + ${currentPage} + '?sortField=name&sortDir=desc'}"
+                   th:class = "${sortField == 'name' && sortDir == 'desc'} ? 'selected-sort' : ''">&#9864;name desc</a>
+                <a th:href="@{'/Catalog/page/' + ${currentPage} + '?sortField=price&sortDir=asc'}"
+                   th:class = "${sortField == 'price' && sortDir == 'asc'} ? 'selected-sort' : ''">&#9864;price: low to high</a>
+                <a th:href="@{'/Catalog/page/' + ${currentPage} + '?sortField=price&sortDir=desc'}"
+                   th:class = "${sortField == 'price' && sortDir == 'desc'} ? 'selected-sort' : ''">&#9864;price: high to</a>
+            </div>
         </div>
     </div>
 
@@ -103,33 +125,15 @@
             
         <div class="pagination-container" th:if="${totalPages > 1}">
               <nav class="pagination align-right">
-<!--                 <a class="prev page-numbers" href="#"><i class="fa fa-angle-left"></i></a>-->
                  <span class="page-numbers" th:each="i: ${#numbers.sequence(1, totalPages)}">
-                     <a th:if="${currentPage != i}" th:href="@{'/Catalog/page/' + ${i}}" class="page-numbers" >[[${i}]]</a>
+                     <a th:if="${currentPage != i}" th:href="@{'/Catalog/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" class="page-numbers" >[[${i}]]</a>
                      <span th:unless="${currentPage != i}" class="page-numbers current">[[${i}]]</span>
                  </span>
-                 <a th:if="${currentPage < totalPages}" th:href="@{'/Catalog/page/' + ${currentPage + 1}}" class="fa fa-angle-right">NEXT</a>
-<!--                 <span th:unless="${currentPage < totalPages}" class="page-numbers current">NEXT</span>-->
-                 <a th:if="${currentPage < totalPages}" th:href="@{'/Catalog/page/' + ${totalPages}}" class="page-numbers" >LAST</a>
-<!--                     <span th:unless="${currentPage > totalPages}" class="page-numbers current">LAST</span>-->
-
-
-    <!--              <div class = "col-sm-1">-->
-    <!--                  <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
-    <!--                  <span th:unless="${currentPage < totalPages}">Next</span>-->
-    <!--              </div>-->
-
-    <!--              <div class="col-sm-1">-->
-    <!--                  <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
-    <!--                  <span th:unless="${currentPage < totalPages}">Last</span>-->
-    <!--              </div>-->
-
+                 <a th:if="${currentPage < totalPages}" th:href="@{'/Catalog/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" class="fa fa-angle-right">NEXT</a>
+                 <a th:if="${currentPage < totalPages}" th:href="@{'/Catalog/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" class="page-numbers" >LAST</a>
               </nav>
         </div>
     </div>
-
-
-
 
 <!--    <div class="grid">-->
 <!--        <div class="product1" th:each="i : ${products}">-->

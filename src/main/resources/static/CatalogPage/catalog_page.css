@@ -570,7 +570,7 @@ nav.pagination .next:hover i, nav.pagination .prev:hover i {
   position: relative;
 }
 
-.ordering .order-by::after {
+/*.ordering .order-by::after {
   position: absolute;
   content: "\f0d7";
   top: 9px;
@@ -580,7 +580,7 @@ nav.pagination .next:hover i, nav.pagination .prev:hover i {
   font-size: 16px;
   font-style: normal;
   color: #e95252;
-}
+}*/
 
 .ordering form {
   vertical-align: bottom;
@@ -815,4 +815,14 @@ display: flex;
 flex-direction: row;
 justify-content: flex-start;
 align-items: flex-start;
+}
+
+.sort-block{
+display: flex;
+flex-direction: column;
+font-size: 16px;
+}
+
+.selected-sort{
+color: gray;
 }

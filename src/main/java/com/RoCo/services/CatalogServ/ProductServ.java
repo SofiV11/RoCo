@@ -20,7 +20,7 @@ import java.util.List;
 public interface ProductServ {
     Product getProductById(Long id);
     List<Product> getAllProducts();
-    Page<Product> findPaginated(int pageNo, int pageSize);
+    Page<Product> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
     List<Product> getAllProductsPageable(Pageable pageable);
     List<Product> findByCategory(Long category);
     void addProduct(Product product);

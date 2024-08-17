@@ -52,7 +52,7 @@ public class CatalogController {
     private String uploadPath;
     @GetMapping("/Catalog")
     public String CatalogPage(Model model){
-        return "redirect:Catalog/page/1";
+        return CatalogPagePaginatedSorted(model, "name", "asc", 1);//"redirect:Catalog/page/1";
     }
 
     @GetMapping("/Catalog/detail{id}")
@@ -62,8 +62,12 @@ public class CatalogController {
         return "CatalogPage/productDetail.html";
     }
     @GetMapping("/Catalog/page/{pageNo}")
-    public String CatalogPAge(Model model,
-                              @PathVariable(value = "pageNo") Integer pageNo
+    public String CatalogPagePaginatedSorted(Model model,
+                                             @RequestParam("sortField") String sortField,
+                                             @RequestParam("sortDir") String sortDir,
+                              //@RequestParam(value = "sortField", defaultValue = "name") String sortField,
+                              //@RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
+                              @PathVariable(value = "pageNo", required = false) Integer pageNo
                               //@PageableDefault(sort = {"pk"}, direction = Direction.DESC) Pageable pageable
                               ){
         if(pageNo == null){
@@ -71,7 +75,7 @@ public class CatalogController {
             model.addAttribute("products", products);
         } else {
             int pageSize = 8;
-            Page<Product> pageProducts= productServ.findPaginated(pageNo, pageSize);
+            Page<Product> pageProducts= productServ.findPaginated(pageNo, pageSize, sortField, sortDir);
             List<Product> productList = pageProducts.getContent();
             model.addAttribute("totalItems", pageProducts.getTotalElements());
             model.addAttribute("products", productList);
@@ -80,6 +84,10 @@ public class CatalogController {
         List<ProductCatEnt> categories = productServ.getAllCategories(); //List<String> getAllCategories()
         model.addAttribute("categories", categories);
         model.addAttribute("currentPage", pageNo);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         model.addAttribute("catlabel", null);
         return "CatalogPage/productList.html";
@@ -113,7 +121,7 @@ public class CatalogController {
 //        return "CatalogPage/productList.html";
 //    }
 
-    @GetMapping("/Catalog/category{cat_id}")
+    @GetMapping("/Catalog/category{cat_id}") //TODO add pagination
     public String CatalogPAgeCateg( @PathVariable Long cat_id, Model model){
         List<Product> products = productServ.findByCategory(cat_id);
         List<ProductCatEnt> categories= productServ.getAllCategories(); //List<String> getAllCategories()
